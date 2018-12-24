@@ -24,18 +24,30 @@
     <ClInclude Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\MedianFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\FilterBaseClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\FastMedianFiltering\BilateralFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\FastMedianFiltering.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\IOHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\MedianFilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SaptialFiltering.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\FilterBaseClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\FastMedianFiltering\BilateralFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

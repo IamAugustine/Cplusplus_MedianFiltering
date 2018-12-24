@@ -16,15 +16,6 @@ MedianFilter::~MedianFilter()
 {
 }
 
-int MedianFilter::GetCPUCoreNumber()
-{
-	SYSTEM_INFO si;
-
-	GetSystemInfo(&si);
-
-	return si.dwNumberOfProcessors;
-}
-
 void MedianFilter::Apply(int * imgIn, int * imgOut, const int height, const int width, const int kernelSize)
 {
 	{
@@ -42,15 +33,7 @@ void MedianFilter::Apply(int * imgIn, int * imgOut, const int height, const int 
 			std::thread t{ FilterBlock, blockSegments[i], fltdSegmentts[i], blockHeight, width, boundary };
 			if (t.joinable()) t.join();
 		}
-		
-		//IOHelper::SaveToLocalFile("block0.txt", blockSegments[0], blockHeight, width);
-		//IOHelper::SaveToLocalFile("block1.txt", blockSegments[1], blockHeight, width);
-		//IOHelper::SaveToLocalFile("block2.txt", blockSegments[2], blockHeight, width);
-		//IOHelper::SaveToLocalFile("block3.txt", blockSegments[3], blockHeight, width);
-		//IOHelper::SaveToLocalFile("block4.txt", blockSegments[4], blockHeight, width);
-		//IOHelper::SaveToLocalFile("block5.txt", blockSegments[5], blockHeight, width);
-		//IOHelper::SaveToLocalFile("block6.txt", blockSegments[6], blockHeight, width);
-		//IOHelper::SaveToLocalFile("block7.txt", blockSegments[7], blockHeight, width);
+
 
 		ReconstructImage(fltdSegmentts, imgOut, threadCount, blockHeight, height, width, boundary);
 		delete blockSegments;

@@ -2,13 +2,15 @@
 using namespace std;
 #include <vector>;
 #include <deque>
-class MedianFilter
+#include "FilterBaseClass.h"
+
+class MedianFilter:public FilterBaseClass
 {
 public:
 	MedianFilter();
 	~MedianFilter();
 private:
-	static int GetCPUCoreNumber();
+	
 	static void FilterBlock(int* imgIn, int* imgOut, const int height, const int width, const int kernelSize);
 	static deque<int> InitializeDeque(int * imgIn, const int y, const int boundary, const int width);
 	static void KernelMoveRight(int * imgIn, int rowIndex, int clmIndexToAdd, int width, int boundary, deque<int>& tmp);
