@@ -1,6 +1,5 @@
 #pragma once
-#include <fstream>;
-#include <iostream>;
+#include <fstream>
 using namespace std;
 
 class IOHelper
@@ -9,13 +8,13 @@ public:
 	IOHelper();
 	~IOHelper();
 public:
-	static int *ReadLocalFile(const char* filename, int height, int width)
+	template<typename T>static T *ReadLocalFile(const char* filename, int height, int width)
 	{
 		fstream fs;
 		fs.open(filename);
 		if (fs.is_open())
 		{
-			int* data = new int[height * width];
+			T* data = new T[height * width];
 			int i = 0;
 			while (!fs.eof())
 			{
@@ -29,9 +28,9 @@ public:
 		{
 			return nullptr;
 		}
-		
+
 	}
-	static void SaveToLocalFile(const char* filename, int* data, int height, int width)
+	template<typename T> static void SaveToLocalFile(const char* filename, T* data, int height, int width)
 	{
 		ofstream fs;
 		fs.open(filename);

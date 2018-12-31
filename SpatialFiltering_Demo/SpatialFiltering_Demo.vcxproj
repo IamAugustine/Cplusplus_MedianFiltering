@@ -20,11 +20,10 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{880774D9-D43E-416C-8F67-1595A2F333EB}</ProjectGuid>
+    <ProjectGuid>{ED570DBA-9A64-4405-8359-9F1FD265CB68}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>FastMedianFiltering</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
-    <ProjectName>SpatialFiltering</ProjectName>
+    <RootNamespace>SpatialFilteringDemo</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -152,24 +151,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\FastMedianFiltering\BilateralFilter.h" />
-    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\FilterBaseClass.h" />
-    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\IOHelper.h" />
-    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\MedianFilter.h" />
-    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\pch.h" />
+    <ClInclude Include="BilateralFilter2D.h" />
+    <ClInclude Include="FilterBase.h" />
+    <ClInclude Include="GaussianFilter2D.h" />
+    <ClInclude Include="IOHelper.h" />
+    <ClInclude Include="MeanFilter2D.h" />
+    <ClInclude Include="MedianFilter2D.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Kernel.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\FastMedianFiltering\BilateralFilter.cpp" />
-    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\FilterBaseClass.cpp" />
-    <ClCompile Include="SaptialFiltering.cpp" />
-    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\IOHelper.cpp" />
-    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\MedianFilter.cpp" />
-    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\pch.cpp">
+    <ClCompile Include="BilateralFilter2D.cpp" />
+    <ClCompile Include="FilterBase.cpp" />
+    <ClCompile Include="GaussianFilter2D.cpp" />
+    <ClCompile Include="IOHelper.cpp" />
+    <ClCompile Include="MeanFilter2D.cpp" />
+    <ClCompile Include="MedianFilter2D.cpp" />
+    <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SpatialFiltering_Demo.cpp" />
+    <ClCompile Include="Kernel.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

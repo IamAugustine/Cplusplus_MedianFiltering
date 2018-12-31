@@ -15,39 +15,57 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\pch.h">
+    <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\IOHelper.h">
+    <ClInclude Include="FilterBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\MedianFilter.h">
+    <ClInclude Include="IOHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\FilterBaseClass.h">
+    <ClInclude Include="MedianFilter2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\FastMedianFiltering\BilateralFilter.h">
+    <ClInclude Include="BilateralFilter2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Kernel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeanFilter2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GaussianFilter2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\pch.cpp">
+    <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\IOHelper.cpp">
+    <ClCompile Include="SpatialFiltering_Demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\MedianFilter.cpp">
+    <ClCompile Include="FilterBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SaptialFiltering.cpp">
+    <ClCompile Include="IOHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\FastMedianFiltering\FastMedianFiltering\FilterBaseClass.cpp">
+    <ClCompile Include="MedianFilter2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\FastMedianFiltering\BilateralFilter.cpp">
+    <ClCompile Include="BilateralFilter2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Kernel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeanFilter2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GaussianFilter2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
