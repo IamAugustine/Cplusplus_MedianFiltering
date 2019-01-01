@@ -10,5 +10,9 @@ public:
 	~MeanFilter2D();
 	void Apply(ushort* imageIn, int height, int width, ushort* imageOut);
 	void FilterBlock(ushort* imageIn, ushort* imageOut);
+private:
+	int blockHeight;
+	void KernelMoveRight(ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<float>& tmp);
+	deque<float> InitializeDeque(ushort * imgIn, const int y);
 };
 

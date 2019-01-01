@@ -12,11 +12,11 @@ int main()
 	const char* saveFileName = "median_filtered_image.txt";
 	int height = 200;
 	int width = 200;
-	ushort kernelSize = 7;
+	byte kernelSize = 7;
 	static ushort* imgData = IOHelper::ReadLocalFile<ushort>(filename, height, width);
 	static ushort* fltdImgData = new ushort[height *width];
 	
-	MedianFilter2D* mdfilter = new MedianFilter2D(kernelSize);
+	auto mdfilter = new MedianFilter2D(kernelSize);
 	
 
 	mdfilter->Apply(imgData,height,width, fltdImgData);

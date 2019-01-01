@@ -4,6 +4,9 @@
 #endif // !_FilterBase_H_
 #include "Kernel.h"
 #include <deque>
+#include <thread>
+#include <algorithm>
+
 using namespace std;
 typedef unsigned short ushort;
 

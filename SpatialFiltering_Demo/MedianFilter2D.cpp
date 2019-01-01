@@ -30,7 +30,7 @@ void MedianFilter2D::Apply(ushort * imageIn, int height, int width, ushort * ima
 	deque<int> dataSegment;
 	size_t threadCount = GetCPUCoreNumber();
 	blockHeight = ImageHeight / threadCount + Kernel->BoundaryV * 2;
-	//int** blockSegments = new int*[threadCount];
+
 	ushort** fltdSegmentts = new ushort*[threadCount];
 	ushort** blockSegments = SegmentImage(imageIn, threadCount);
 	for (size_t i = 0; i < threadCount; i++)
