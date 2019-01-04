@@ -8,12 +8,12 @@ public:
 	MedianFilter2D(int size);
 	MedianFilter2D(int sizeX, int sizeY);
 	~MedianFilter2D();
-	void Apply(ushort* imageIn, int height, int width, ushort* imageOut);
-	void FilterBlock(ushort* imgIn, ushort* imgOut);
+	void Apply(const ushort* imageIn, int height, int width, ushort* imageOut);
+	void FilterBlock(const ushort* imgIn, ushort* imgOut);
 private:
 	int blockHeight;
-	void KernelMoveRight(ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp);
-	deque<ushort> InitializeDeque(ushort * imgIn, const int y);
+	void KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp);
+	deque<ushort> InitializeDeque(const ushort * imgIn, const int y);
 	
 };
 

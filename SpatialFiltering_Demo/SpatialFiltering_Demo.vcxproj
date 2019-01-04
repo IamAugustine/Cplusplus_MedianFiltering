@@ -151,6 +151,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\FastGaussianFilter2D.h" />
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\MeanFilterByTwo1DKernels.h" />
     <ClInclude Include="BilateralFilter2D.h" />
     <ClInclude Include="FilterBase.h" />
     <ClInclude Include="GaussianFilter2D.h" />
@@ -161,6 +163,8 @@
     <ClInclude Include="Kernel.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\FastGaussianFilter2D.cpp" />
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\MeanFilterByTwo1DKernels.cpp" />
     <ClCompile Include="BilateralFilter2D.cpp" />
     <ClCompile Include="FilterBase.cpp" />
     <ClCompile Include="GaussianFilter2D.cpp" />

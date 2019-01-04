@@ -23,7 +23,7 @@ MedianFilter2D::~MedianFilter2D()
 {
 }
 
-void MedianFilter2D::Apply(ushort * imageIn, int height, int width, ushort * imageOut)
+void MedianFilter2D::Apply(const ushort * imageIn, int height, int width, ushort * imageOut)
 {
 	ImageHeight = height;
 	ImageWidth = width;
@@ -46,7 +46,7 @@ void MedianFilter2D::Apply(ushort * imageIn, int height, int width, ushort * ima
 	delete fltdSegmentts;
 }
 
-void MedianFilter2D::KernelMoveRight(ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp)
+void MedianFilter2D::KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp)
 {
 	tmp.erase(tmp.begin(), tmp.begin() + Kernel->VerticalSize);
 	int newClmIndex = clmIndexToAdd >= ImageWidth ? 2 * ImageWidth - clmIndexToAdd : clmIndexToAdd;//Mirror boundary
@@ -57,7 +57,7 @@ void MedianFilter2D::KernelMoveRight(ushort * imgIn, int rowIndex, int clmIndexT
 	}
 }
 
-deque<ushort> MedianFilter2D::InitializeDeque(ushort * imgIn, const int y)
+deque<ushort> MedianFilter2D::InitializeDeque(const ushort * imgIn, const int y)
 {
 	//const size_t kernelSize = boundary * 2 + 1;
 	deque<ushort> originKernel;
@@ -72,7 +72,7 @@ deque<ushort> MedianFilter2D::InitializeDeque(ushort * imgIn, const int y)
 	return originKernel;
 }
 
-void MedianFilter2D::FilterBlock(ushort * imgIn, ushort * imgOut)
+void MedianFilter2D::FilterBlock(const ushort * imgIn, ushort * imgOut)
 {
 	//imgOut = new int[blockHeight*width];
 	std::deque<ushort> kernelDeque;

@@ -11,7 +11,7 @@ FilterBase::~FilterBase()
 {
 }
 
-void FilterBase::Apply(ushort * imageIn, int height, int width, ushort * imageOut)
+void FilterBase::Apply(const ushort * imageIn, int height, int width, ushort * imageOut)
 {
 }
 
@@ -22,7 +22,7 @@ int FilterBase::GetCPUCoreNumber()
 	return si.dwNumberOfProcessors;
 }
 
-ushort ** FilterBase::SegmentImage(ushort * imgIn, int blockNumber)
+ushort ** FilterBase::SegmentImage(const ushort * imgIn, int blockNumber)
 {
 	ushort** segments = new ushort*[blockNumber];
 	ushort* temp = new ushort[(ImageHeight + Kernel->BoundaryV * 2)*ImageWidth];

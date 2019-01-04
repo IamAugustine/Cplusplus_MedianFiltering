@@ -21,11 +21,11 @@ protected:
 	FilterKernel* Kernel;
 	int blockHeight;
 public:
-	virtual void Apply(ushort* imageIn, int height, int width, ushort* imageOut) = 0;
-	virtual void FilterBlock(ushort* imgIn, ushort* imgOut) = 0;
+	virtual void Apply(const ushort* imageIn, int height, int width, ushort* imageOut) = 0;
+	virtual void FilterBlock(const ushort* imgIn, ushort* imgOut) = 0;
 public:
 	int GetCPUCoreNumber();
-	ushort** SegmentImage(ushort* imgIn, int blockNumber);
+	ushort** SegmentImage(const ushort* imgIn, int blockNumber);
 	void ReconstructImage(ushort** segments, ushort* imgOut, int blockNumber, const int blockHeight);
 };
 

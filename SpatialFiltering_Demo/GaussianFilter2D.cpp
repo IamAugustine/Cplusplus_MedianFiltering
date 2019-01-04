@@ -6,6 +6,11 @@ GaussianFilter2D::GaussianFilter2D()
 {
 }
 
+GaussianFilter2D::GaussianFilter2D(float sigma)
+{
+	GaussianKernel(EstimateSizebySigmaOnly(sigma), sigma);
+}
+
 GaussianFilter2D::GaussianFilter2D(byte size, float sigma)
 {
 	GenerateKernel(size, sigma);
@@ -21,7 +26,7 @@ GaussianFilter2D::~GaussianFilter2D()
 {
 }
 
-void GaussianFilter2D::Apply(ushort * imageIn, int height, int width, ushort * imageOut)
+void GaussianFilter2D::Apply(const ushort * imageIn, int height, int width, ushort * imageOut)
 {
 	ImageHeight = height;
 	ImageWidth = width;
@@ -44,7 +49,7 @@ void GaussianFilter2D::Apply(ushort * imageIn, int height, int width, ushort * i
 	delete fltdSegmentts;
 }
 
-void GaussianFilter2D::FilterBlock(ushort * imageIn, ushort * imageOut)
+void GaussianFilter2D::FilterBlock(const ushort * imageIn, ushort * imageOut)
 {
 }
 
@@ -56,4 +61,10 @@ void GaussianFilter2D::GenerateKernel(byte size, float sigma)
 void GaussianFilter2D::GenerateKernel(byte sizeX, byte sizeY, float sigmaX, float sigmaY)
 {
 	this->Kernel = new GaussianKernel(sizeX, sizeY, sigmaX, sigmaY);
+}
+
+byte GaussianFilter2D::EstimateSizebySigmaOnly(float sigma)
+{
+	byte order = (byte)round(sigma * 5);
+	return order % 2 == 0 ? order + 1 : order;
 }

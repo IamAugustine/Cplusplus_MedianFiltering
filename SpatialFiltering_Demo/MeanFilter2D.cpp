@@ -22,7 +22,7 @@ MeanFilter2D::~MeanFilter2D()
 	
 }
 
-void MeanFilter2D::Apply(ushort * imageIn, int height, int width, ushort * imageOut)
+void MeanFilter2D::Apply(const ushort * imageIn, int height, int width, ushort * imageOut)
 {
 	ImageHeight = height;
 	ImageWidth = width;
@@ -45,7 +45,7 @@ void MeanFilter2D::Apply(ushort * imageIn, int height, int width, ushort * image
 
 }
 
-void MeanFilter2D::FilterBlock(ushort * imageIn, ushort * imageOut)
+void MeanFilter2D::FilterBlock(const ushort * imageIn, ushort * imageOut)
 {
 	std::deque<float> kernelDeque;
 	//std::deque<ushort> tempDeque;
@@ -57,17 +57,19 @@ void MeanFilter2D::FilterBlock(ushort * imageIn, ushort * imageOut)
 		float mean = 0;
 		//std::nth_element(tempDeque.begin(), tempDeque.begin() + tempDeque.size() / 2, tempDeque.end());
 		imageOut[rowIndex * ImageWidth + newClmIndex] = (ushort) (std::accumulate(kernelDeque.begin(), kernelDeque.end(), 0) / kernelDeque.size());
+		float meanToRemove = kernelDeque[0];
 		newClmIndex++;
 		while (newClmIndex <= ImageWidth)
 		{
 			KernelMoveRight(imageIn, rowIndex, newClmIndex + Kernel->BoundaryH, kernelDeque);
-			imageOut[rowIndex * ImageWidth + newClmIndex] = (ushort)(std::accumulate(kernelDeque.begin(), kernelDeque.end(), 0) / kernelDeque.size());
+			imageOut[rowIndex * ImageWidth + newClmIndex] = imageOut[rowIndex * ImageWidth + newClmIndex - 1]  + (float)(kernelDeque.back() - meanToRemove)/Kernel->HorizontalSize;
+			meanToRemove = kernelDeque[0];
 			newClmIndex++;
 		}
 	}
 }
 
-void MeanFilter2D::KernelMoveRight(ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<float>& tmp)
+void MeanFilter2D::KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<float>& tmp)
 {
 	tmp.pop_front();
 	int newClmIndex = clmIndexToAdd >= ImageWidth ? 2 * ImageWidth - clmIndexToAdd : clmIndexToAdd;//Mirror boundary
@@ -80,7 +82,7 @@ void MeanFilter2D::KernelMoveRight(ushort * imgIn, int rowIndex, int clmIndexToA
 	}
 }
 
-deque<float> MeanFilter2D::InitializeDeque(ushort * imgIn, const int y)
+deque<float> MeanFilter2D::InitializeDeque(const ushort * imgIn, const int y)
 {
 	deque<float> originKernel;
 	for (int kx = -1 * Kernel->BoundaryH; kx <= Kernel->BoundaryH; kx++)

@@ -9,14 +9,16 @@ class GaussianFilter2D :
 {
 public:
 	GaussianFilter2D();
+	GaussianFilter2D(float sigma);
 	GaussianFilter2D(byte size, float sigma);
 	GaussianFilter2D(byte sizeX, byte sizeY, float sigmaX, float sigmaY);
 	~GaussianFilter2D();
-	void Apply(ushort* imageIn, int height, int width, ushort* imageOut);
-	void FilterBlock(ushort* imageIn, ushort* imageOut);
-public:
+	void Apply(const ushort* imageIn, int height, int width, ushort* imageOut);
+	void FilterBlock(const ushort* imageIn, ushort* imageOut);
+private:
 	void GenerateKernel(byte size, float sigma);
 	void GenerateKernel(byte sizeX, byte sizeY,  float sigmaX, float sigmaY);
+	byte EstimateSizebySigmaOnly(float sigma);
 
 };
 

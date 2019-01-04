@@ -8,11 +8,11 @@ public:
 	MeanFilter2D(byte size);
 	MeanFilter2D(byte sizeX, byte sizeY);
 	~MeanFilter2D();
-	void Apply(ushort* imageIn, int height, int width, ushort* imageOut);
-	void FilterBlock(ushort* imageIn, ushort* imageOut);
+	void Apply(const ushort* imageIn, int height, int width, ushort* imageOut);
+	void FilterBlock(const ushort* imageIn, ushort* imageOut);
 private:
 	int blockHeight;
-	void KernelMoveRight(ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<float>& tmp);
-	deque<float> InitializeDeque(ushort * imgIn, const int y);
+	void KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<float>& tmp);
+	deque<float> InitializeDeque(const ushort * imgIn, const int y);
 };
 
