@@ -1,20 +1,24 @@
 #pragma once
 #include "FilterBase.h"
+#include "GaussianFilter2D.h"
 class BilateralFilter2D :
-	public FilterBase
+	public GaussianFilter2D
 {
 public:
-	BilateralFilter2D();
+	BilateralFilter2D(float sigmaS, float sigmaP);
+	BilateralFilter2D(float sigmaS, byte N, float sigmaP);
 	~BilateralFilter2D();
 protected:
-	float sigma;
-	float mu;
+
 public:
 	void Apply(const ushort* imageIn, int height, int width, ushort* imageOut);
-	void FilterBlock(const ushort* imgIn, ushort* imgOut);
+	ushort Calculate(deque<ushort> data);
+	void FilterBlock(const ushort* imageIn, ushort* imageOut);
+	void CalculatePixelGaussian();
 private:
+	float* pixelWeight;
 	int blockHeight;
-	void KernelMoveRight(ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp);
-	deque<ushort> InitializeDeque(ushort * imgIn, const int y);
+	float sigmaS;
+	float sigmaP;
 };
 

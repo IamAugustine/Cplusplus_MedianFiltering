@@ -29,7 +29,7 @@ void MedianFilter2D::Apply(const ushort * imageIn, int height, int width, ushort
 	ImageWidth = width;
 	deque<int> dataSegment;
 	size_t threadCount = GetCPUCoreNumber();
-	blockHeight = ImageHeight / threadCount + Kernel->BoundaryV * 2;
+	blockHeight = ImageHeight / threadCount + Kernel->RadiusV * 2;
 
 	ushort** fltdSegmentts = new ushort*[threadCount];
 	ushort** blockSegments = SegmentImage(imageIn, threadCount);
@@ -50,7 +50,7 @@ void MedianFilter2D::KernelMoveRight(const ushort * imgIn, int rowIndex, int clm
 {
 	tmp.erase(tmp.begin(), tmp.begin() + Kernel->VerticalSize);
 	int newClmIndex = clmIndexToAdd >= ImageWidth ? 2 * ImageWidth - clmIndexToAdd : clmIndexToAdd;//Mirror boundary
-	for (int i = -1 * Kernel->BoundaryV; i <= Kernel->BoundaryV; i++)
+	for (int i = -1 * Kernel->RadiusV; i <= Kernel->RadiusV; i++)
 	{
 		int kernelRowIndex = (rowIndex + i)*ImageWidth + newClmIndex;
 		tmp.push_back(imgIn[kernelRowIndex]);
@@ -61,11 +61,11 @@ deque<ushort> MedianFilter2D::InitializeDeque(const ushort * imgIn, const int y)
 {
 	//const size_t kernelSize = boundary * 2 + 1;
 	deque<ushort> originKernel;
-	for (int kx = -1 * Kernel->BoundaryH; kx <= Kernel->BoundaryH; kx++)
+	for (int kx = -1 * Kernel->RadiusH; kx <= Kernel->RadiusH; kx++)
 	{
-		for (int ky = -1 * Kernel->BoundaryV; ky <= 1 * Kernel->BoundaryV; ky++)
+		for (int ky = -1 * Kernel->RadiusV; ky <= 1 * Kernel->RadiusV; ky++)
 		{
-			int pixel00Index = (ky + Kernel->BoundaryV + y)*ImageWidth + abs(kx);
+			int pixel00Index = (ky + Kernel->RadiusV + y)*ImageWidth + abs(kx);
 			originKernel.push_back(imgIn[pixel00Index]);
 		}
 	}
@@ -77,7 +77,7 @@ void MedianFilter2D::FilterBlock(const ushort * imgIn, ushort * imgOut)
 	//imgOut = new int[blockHeight*width];
 	std::deque<ushort> kernelDeque;
 	std::deque<ushort> tempDeque;
-	for (size_t rowIndex = Kernel->BoundaryV; rowIndex < blockHeight - Kernel->BoundaryV; rowIndex++)
+	for (size_t rowIndex = Kernel->RadiusV; rowIndex < blockHeight - Kernel->RadiusV; rowIndex++)
 	{
 		kernelDeque = InitializeDeque(imgIn, rowIndex);
 		tempDeque = kernelDeque;
@@ -87,7 +87,7 @@ void MedianFilter2D::FilterBlock(const ushort * imgIn, ushort * imgOut)
 		newClmIndex++;
 		while (newClmIndex <= ImageWidth)
 		{
-			KernelMoveRight(imgIn, rowIndex, newClmIndex + Kernel->BoundaryH, kernelDeque);
+			KernelMoveRight(imgIn, rowIndex, newClmIndex + Kernel->RadiusH, kernelDeque);
 			tempDeque = kernelDeque;
 			std::nth_element(tempDeque.begin(), tempDeque.begin() + tempDeque.size() / 2, tempDeque.end());
 			imgOut[rowIndex * ImageWidth + newClmIndex] = tempDeque[tempDeque.size() / 2];

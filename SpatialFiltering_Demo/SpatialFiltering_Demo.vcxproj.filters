@@ -16,6 +16,9 @@
     <Filter Include="Header Files\Filter">
       <UniqueIdentifier>{0aaaaa8d-24f2-409e-aea5-b8640d48bb57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Filter">
+      <UniqueIdentifier>{aec895f2-7e59-4d53-9902-4cad70baf4cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -48,6 +51,9 @@
     <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\MeanFilterByTwo1DKernels.h">
       <Filter>Header Files\Filter</Filter>
     </ClInclude>
+    <ClInclude Include="LinearMotionBlur2D.h">
+      <Filter>Header Files\Filter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -56,32 +62,35 @@
     <ClCompile Include="SpatialFiltering_Demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FilterBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IOHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MedianFilter2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BilateralFilter2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Kernel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MeanFilter2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GaussianFilter2D.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="BilateralFilter2D.cpp">
+      <Filter>Source Files\Filter</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\FastGaussianFilter2D.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Filter</Filter>
+    </ClCompile>
+    <ClCompile Include="GaussianFilter2D.cpp">
+      <Filter>Source Files\Filter</Filter>
+    </ClCompile>
+    <ClCompile Include="MeanFilter2D.cpp">
+      <Filter>Source Files\Filter</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\MeanFilterByTwo1DKernels.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Filter</Filter>
+    </ClCompile>
+    <ClCompile Include="MedianFilter2D.cpp">
+      <Filter>Source Files\Filter</Filter>
+    </ClCompile>
+    <ClCompile Include="FilterBase.cpp">
+      <Filter>Source Files\Filter</Filter>
+    </ClCompile>
+    <ClCompile Include="MotionBlur2D.cpp">
+      <Filter>Source Files\Filter</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

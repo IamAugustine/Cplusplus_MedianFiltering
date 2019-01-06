@@ -31,7 +31,7 @@ void FastGaussianFilter2D::Apply(const ushort * imageIn, int height, int width, 
 	ImageWidth = width;
 	deque<int> dataSegment;
 	size_t threadCount = GetCPUCoreNumber();
-	blockHeight = ImageHeight / threadCount + Kernel->BoundaryV * 2;
+	blockHeight = ImageHeight / threadCount + Kernel->RadiusV * 2;
 	ushort** fltdSegmentts = new ushort*[threadCount];
 	ushort** blockSegments = SegmentImage(imageIn, threadCount);
 	for (size_t i = 0; i < threadCount; i++)

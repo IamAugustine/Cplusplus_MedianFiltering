@@ -28,7 +28,7 @@ void MeanFilter2D::Apply(const ushort * imageIn, int height, int width, ushort *
 	ImageWidth = width;
 	deque<int> dataSegment;
 	size_t threadCount = GetCPUCoreNumber();
-	blockHeight = ImageHeight / threadCount + Kernel->BoundaryV * 2;
+	blockHeight = ImageHeight / threadCount + Kernel->RadiusV * 2;
 	ushort** fltdSegmentts = new ushort*[threadCount];
 	ushort** blockSegments = SegmentImage(imageIn, threadCount);
 	for (size_t i = 0; i < threadCount; i++)
@@ -49,7 +49,7 @@ void MeanFilter2D::FilterBlock(const ushort * imageIn, ushort * imageOut)
 {
 	std::deque<float> kernelDeque;
 	//std::deque<ushort> tempDeque;
-	for (size_t rowIndex = Kernel->BoundaryV; rowIndex < blockHeight - Kernel->BoundaryV; rowIndex++)
+	for (size_t rowIndex = Kernel->RadiusV; rowIndex < blockHeight - Kernel->RadiusV; rowIndex++)
 	{
 		kernelDeque = InitializeDeque(imageIn, rowIndex);
 		//tempDeque = kernelDeque;
@@ -61,7 +61,7 @@ void MeanFilter2D::FilterBlock(const ushort * imageIn, ushort * imageOut)
 		newClmIndex++;
 		while (newClmIndex <= ImageWidth)
 		{
-			KernelMoveRight(imageIn, rowIndex, newClmIndex + Kernel->BoundaryH, kernelDeque);
+			KernelMoveRight(imageIn, rowIndex, newClmIndex + Kernel->RadiusH, kernelDeque);
 			imageOut[rowIndex * ImageWidth + newClmIndex] = imageOut[rowIndex * ImageWidth + newClmIndex - 1]  + (float)(kernelDeque.back() - meanToRemove)/Kernel->HorizontalSize;
 			meanToRemove = kernelDeque[0];
 			newClmIndex++;
@@ -74,10 +74,10 @@ void MeanFilter2D::KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIn
 	tmp.pop_front();
 	int newClmIndex = clmIndexToAdd >= ImageWidth ? 2 * ImageWidth - clmIndexToAdd : clmIndexToAdd;//Mirror boundary
 	float mean = 0;
-	for (int i = -1 * Kernel->BoundaryV; i <= Kernel->BoundaryV; i++)
+	for (int i = -1 * Kernel->RadiusV; i <= Kernel->RadiusV; i++)
 	{
 		int kernelRowIndex = (rowIndex + i)*ImageWidth + newClmIndex;
-		mean += (float)(imgIn[kernelRowIndex])/ Kernel->BoundaryV;
+		mean += (float)(imgIn[kernelRowIndex])/ Kernel->RadiusV;
 		tmp.push_back(mean);
 	}
 }
@@ -85,13 +85,13 @@ void MeanFilter2D::KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIn
 deque<float> MeanFilter2D::InitializeDeque(const ushort * imgIn, const int y)
 {
 	deque<float> originKernel;
-	for (int kx = -1 * Kernel->BoundaryH; kx <= Kernel->BoundaryH; kx++)
+	for (int kx = -1 * Kernel->RadiusH; kx <= Kernel->RadiusH; kx++)
 	{
 		float mean = 0;
-		for (int ky = -1 * Kernel->BoundaryV; ky <= 1 * Kernel->BoundaryV; ky++)
+		for (int ky = -1 * Kernel->RadiusV; ky <= 1 * Kernel->RadiusV; ky++)
 		{
-			int pixel00Index = (ky + Kernel->BoundaryV + y)*ImageWidth + abs(kx);
-			mean += (float)(imgIn[pixel00Index])/ Kernel->BoundaryV;
+			int pixel00Index = (ky + Kernel->RadiusV + y)*ImageWidth + abs(kx);
+			mean += (float)(imgIn[pixel00Index])/ Kernel->RadiusV;
 		}
 		originKernel.push_back(mean);
 	}

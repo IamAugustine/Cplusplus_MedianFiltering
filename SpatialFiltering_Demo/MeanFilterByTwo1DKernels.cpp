@@ -25,7 +25,7 @@ void MeanFilterByTwo1DKernels::Apply(const ushort * imageIn, int height, int wid
 	ImageWidth = width;
 	deque<int> dataSegment;
 	size_t threadCount = GetCPUCoreNumber();
-	blockHeight = ImageHeight / threadCount + Kernel->BoundaryV * 2;
+	blockHeight = ImageHeight / threadCount + Kernel->RadiusV * 2;
 	ushort** fltdSegmentts = new ushort*[threadCount];
 	ushort** blockSegments = SegmentImage(imageIn, threadCount);
 	for (size_t i = 0; i < threadCount; i++)
@@ -51,18 +51,18 @@ void MeanFilterByTwo1DKernels::FilterBlock(const ushort * imageIn, ushort * imag
 
 void MeanFilterByTwo1DKernels::MeanFilter1D_H(const ushort * imageIn, ushort * imageOut)
 {
-	for (size_t rowIndex = Kernel->BoundaryV; rowIndex < blockHeight - Kernel->BoundaryV; rowIndex++)
+	for (size_t rowIndex = Kernel->RadiusV; rowIndex < blockHeight - Kernel->RadiusV; rowIndex++)
 	{
 		int rowOffset = rowIndex * ImageWidth;
 		imageOut[rowOffset] = GetFirstPixelPerRow(imageIn, rowIndex);
 		int newClmIndex = 1;
 		while (newClmIndex < ImageWidth)
 		{
-			int pixelToAdd = newClmIndex + Kernel->BoundaryH;
+			int pixelToAdd = newClmIndex + Kernel->RadiusH;
 			if (pixelToAdd >= ImageWidth)
 				pixelToAdd = 2 * ImageWidth - pixelToAdd; //mirror boundary
-			int pixelToRemove = abs(newClmIndex - Kernel->BoundaryH - 1);//mirror boundary
-			imageOut[rowOffset + newClmIndex] = ShiftPixel(imageOut[rowOffset + newClmIndex - 1], imageIn[rowOffset + pixelToAdd], imageIn[rowOffset + pixelToRemove], Kernel->BoundaryH);
+			int pixelToRemove = abs(newClmIndex - Kernel->RadiusH - 1);//mirror boundary
+			imageOut[rowOffset + newClmIndex] = ShiftPixel(imageOut[rowOffset + newClmIndex - 1], imageIn[rowOffset + pixelToAdd], imageIn[rowOffset + pixelToRemove], Kernel->RadiusH);
 			//imageOut[rowOffset + newClmIndex] = (ushort)((imageOut[rowOffset + newClmIndex - 1]*Kernel->HorizontalSize + (imageIn[rowOffset + pixelToAdd] - imageIn[rowOffset + pixleToRemove])*1.0f / Kernel->HorizontalSize));
 			newClmIndex++;
 		}
@@ -74,16 +74,16 @@ void MeanFilterByTwo1DKernels::MeanFilter1D_T(const ushort * imageIn, ushort * i
 {
 	for (size_t columnIndex = 0; columnIndex < ImageWidth; columnIndex++)
 	{
-		int columnOffset = columnIndex + Kernel->BoundaryV*ImageWidth;
+		int columnOffset = columnIndex + Kernel->RadiusV*ImageWidth;
 		imageOut[columnOffset] = GetFirstPixelPerColumn(imageIn, columnIndex);
 		int newRowIndex = 1;
 		while (newRowIndex < ImageHeight)
 		{
-			int pixelToAdd = newRowIndex + Kernel->BoundaryV;
+			int pixelToAdd = newRowIndex + Kernel->RadiusV;
 			if (pixelToAdd >= ImageHeight)
 				pixelToAdd = 2 * ImageHeight - pixelToAdd; //mirror boundary
-			int pixelToRemove = abs(newRowIndex - Kernel->BoundaryV - 1);//mirror boundary
-			imageOut[columnOffset + newRowIndex * ImageWidth] = ShiftPixel(imageOut[columnOffset + (newRowIndex - 1)*ImageWidth], imageIn[columnOffset + pixelToAdd * ImageWidth], imageIn[columnOffset + pixelToRemove * ImageWidth], Kernel->BoundaryV);
+			int pixelToRemove = abs(newRowIndex - Kernel->RadiusV - 1);//mirror boundary
+			imageOut[columnOffset + newRowIndex * ImageWidth] = ShiftPixel(imageOut[columnOffset + (newRowIndex - 1)*ImageWidth], imageIn[columnOffset + pixelToAdd * ImageWidth], imageIn[columnOffset + pixelToRemove * ImageWidth], Kernel->RadiusV);
 			//imageOut[rowOffset + newClmIndex] = (ushort)((imageOut[rowOffset + newClmIndex - 1]*Kernel->HorizontalSize + (imageIn[rowOffset + pixelToAdd] - imageIn[rowOffset + pixleToRemove])*1.0f / Kernel->HorizontalSize));
 			newRowIndex ++;
 		}
@@ -93,9 +93,9 @@ void MeanFilterByTwo1DKernels::MeanFilter1D_T(const ushort * imageIn, ushort * i
 ushort MeanFilterByTwo1DKernels::GetFirstPixelPerRow(const ushort * imgIn, const int rowIndex)
 {
 	float mean = 0;
-		for (int kx = -1 * Kernel->BoundaryH; kx <= 1 * Kernel->BoundaryH; kx++)
+		for (int kx = -1 * Kernel->RadiusH; kx <= 1 * Kernel->RadiusH; kx++)
 		{
-			int pixel00Index = (Kernel->BoundaryV + rowIndex)*ImageWidth + abs(kx);
+			int pixel00Index = (Kernel->RadiusV + rowIndex)*ImageWidth + abs(kx);
 			mean += (float)(imgIn[pixel00Index]) / Kernel->HorizontalSize;
 		}
 		return (ushort)(mean + 0.5);

@@ -8,7 +8,7 @@ class FilterKernel
 {
 public:
 	FilterKernel();
-	template<typename T> FilterKernel(T verticalSize, T horizontalSize, float* kernel):VerticalSize((byte)verticalSize), HorizontalSize((byte)horizontalSize)
+	template<typename T> FilterKernel(T verticalSize, T horizontalSize, float* kernel) :VerticalSize((byte)verticalSize), HorizontalSize((byte)horizontalSize)
 	{
 		kernelLength = verticalSize * horizontalSize;
 		Kernel.resize(kernelLength);
@@ -19,37 +19,12 @@ public:
 	byte VerticalSize;
 	byte HorizontalSize;
 	vector<float> Kernel{ MAX_KERNEL_SIZE * MAX_KERNEL_SIZE,1 };
-	byte BoundaryH;
-	byte BoundaryV;
+	byte RadiusH;
+	byte RadiusV;
 private:
 	int kernelLength;
-public:
-	enum KernelName
-	{
-		Average3x3,
-		Average5x5,
-		Gaussian3x3,
-		Gaussian5x5,
-		Gaussian7x7,
-		SobelVertical,
-		SobelHorizontal,
-		MotionBlur,
-		MotionBlur45,
-		MotionBLur135,
-		MotionBlur225,
-		MotionBlur315,
-
-
-	};
-	static FilterKernel GetTypicalKernel(KernelName name)
-	{
-		switch (name)
-		{
-		default:
-			break;
-		}
-	}
 };
+
 class MeanKernel :public FilterKernel
 {
 public:
@@ -73,9 +48,12 @@ class MotionBlur :public FilterKernel
 {
 public:
 	//MotionBlur();
-	MotionBlur(byte size);
 	MotionBlur(byte size, float angle);
 	~MotionBlur();
+	byte* NonZeroIndexInSparseKernel;
+private:
+	void CalculateKernel(byte size, float angle);
+	
 };
 class SobelKernel :public FilterKernel
 {
