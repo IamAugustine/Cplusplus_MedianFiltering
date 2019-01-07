@@ -19,6 +19,24 @@
     <Filter Include="Source Files\Filter">
       <UniqueIdentifier>{aec895f2-7e59-4d53-9902-4cad70baf4cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Filter\Blur">
+      <UniqueIdentifier>{5731d0da-e6a9-4669-bd41-8777626cd766}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Filter\Edge Detection">
+      <UniqueIdentifier>{3ec2ebce-5ffa-4e58-ba62-e11f99fcf338}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Filter\Sharpening">
+      <UniqueIdentifier>{2c781328-3288-4096-a451-c72c4121a2a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Filter\Blur">
+      <UniqueIdentifier>{a1aa380c-c72d-4f1a-9283-30158d4e2469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Filter\Edge Detection">
+      <UniqueIdentifier>{362e075b-1f9c-4809-ba9c-4c82a78d24ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Filter\Sharpening">
+      <UniqueIdentifier>{8bdc51d6-5a40-4572-8c09-8f7def5cbda6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -27,32 +45,44 @@
     <ClInclude Include="IOHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Kernel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BilateralFilter2D.h">
-      <Filter>Header Files\Filter</Filter>
-    </ClInclude>
     <ClInclude Include="FilterBase.h">
       <Filter>Header Files\Filter</Filter>
     </ClInclude>
-    <ClInclude Include="GaussianFilter2D.h">
-      <Filter>Header Files\Filter</Filter>
-    </ClInclude>
-    <ClInclude Include="MeanFilter2D.h">
-      <Filter>Header Files\Filter</Filter>
-    </ClInclude>
-    <ClInclude Include="MedianFilter2D.h">
-      <Filter>Header Files\Filter</Filter>
+    <ClInclude Include="BilateralFilter2D.h">
+      <Filter>Header Files\Filter\Blur</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\FastGaussianFilter2D.h">
-      <Filter>Header Files\Filter</Filter>
+      <Filter>Header Files\Filter\Blur</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\MeanFilterByTwo1DKernels.h">
-      <Filter>Header Files\Filter</Filter>
+    <ClInclude Include="GaussianFilter2D.h">
+      <Filter>Header Files\Filter\Blur</Filter>
     </ClInclude>
     <ClInclude Include="LinearMotionBlur2D.h">
+      <Filter>Header Files\Filter\Blur</Filter>
+    </ClInclude>
+    <ClInclude Include="MeanFilter2D.h">
+      <Filter>Header Files\Filter\Blur</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\MeanFilterByTwo1DKernels.h">
+      <Filter>Header Files\Filter\Blur</Filter>
+    </ClInclude>
+    <ClInclude Include="MedianFilter2D.h">
+      <Filter>Header Files\Filter\Blur</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\UnsharpMaskFilter.h">
+      <Filter>Header Files\Filter\Sharpening</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\LaplacianOfGaussian2D.h">
+      <Filter>Header Files\Filter\Edge Detection</Filter>
+    </ClInclude>
+    <ClInclude Include="Kernel.h">
       <Filter>Header Files\Filter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Sobel.h">
+      <Filter>Header Files\Filter\Edge Detection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Laplacian.h">
+      <Filter>Header Files\Filter\Edge Detection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -65,32 +95,44 @@
     <ClCompile Include="IOHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Kernel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BilateralFilter2D.cpp">
-      <Filter>Source Files\Filter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\FastGaussianFilter2D.cpp">
-      <Filter>Source Files\Filter</Filter>
-    </ClCompile>
-    <ClCompile Include="GaussianFilter2D.cpp">
-      <Filter>Source Files\Filter</Filter>
-    </ClCompile>
-    <ClCompile Include="MeanFilter2D.cpp">
-      <Filter>Source Files\Filter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\MeanFilterByTwo1DKernels.cpp">
-      <Filter>Source Files\Filter</Filter>
-    </ClCompile>
-    <ClCompile Include="MedianFilter2D.cpp">
-      <Filter>Source Files\Filter</Filter>
-    </ClCompile>
     <ClCompile Include="FilterBase.cpp">
       <Filter>Source Files\Filter</Filter>
     </ClCompile>
+    <ClCompile Include="BilateralFilter2D.cpp">
+      <Filter>Source Files\Filter\Blur</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\FastGaussianFilter2D.cpp">
+      <Filter>Source Files\Filter\Blur</Filter>
+    </ClCompile>
+    <ClCompile Include="GaussianFilter2D.cpp">
+      <Filter>Source Files\Filter\Blur</Filter>
+    </ClCompile>
     <ClCompile Include="MotionBlur2D.cpp">
+      <Filter>Source Files\Filter\Blur</Filter>
+    </ClCompile>
+    <ClCompile Include="MeanFilter2D.cpp">
+      <Filter>Source Files\Filter\Blur</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\MeanFilterByTwo1DKernels.cpp">
+      <Filter>Source Files\Filter\Blur</Filter>
+    </ClCompile>
+    <ClCompile Include="MedianFilter2D.cpp">
+      <Filter>Source Files\Filter\Blur</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\UnsharpMaskFilter.cpp">
+      <Filter>Source Files\Filter\Sharpening</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\LaplacianOfGaussian2D.cpp">
+      <Filter>Source Files\Filter\Edge Detection</Filter>
+    </ClCompile>
+    <ClCompile Include="Kernel.cpp">
       <Filter>Source Files\Filter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Laplacian.cpp">
+      <Filter>Source Files\Filter\Edge Detection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Sobel.cpp">
+      <Filter>Source Files\Filter\Edge Detection</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

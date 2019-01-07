@@ -1,14 +1,17 @@
 #include "pch.h"
 #include "Kernel.h"
 #include <math.h>
-#define PI 3.14159265358979323846
+constexpr auto PI = 3.14159265358979323846;
 #define Square(x) (x)*(x)
+template<typename T> inline float DegreeToRadian(T t) {return ((int)t % 180) * PI / 180; };
+
 FilterKernel::FilterKernel()
 {
 }
 
 FilterKernel::~FilterKernel()
 {
+	std::vector<float>().swap(Kernel);
 }
 
 MeanKernel::MeanKernel()
@@ -32,10 +35,10 @@ MeanKernel::MeanKernel(byte verticalSize, byte horizontalSize)
 	std::fill(Kernel.begin(), Kernel.end(), 1.0f / verticalSize * horizontalSize);
 }
 
-MeanKernel::~MeanKernel()
-{
-	std::vector<float>().swap(Kernel);
-}
+//MeanKernel::~MeanKernel()
+//{
+//	std::vector<float>().swap(Kernel);
+//}
 
 GaussianKernel::GaussianKernel(byte sizeX, byte sizeY, float sigmaX, float sigmaY):sigmaX(sigmaX), sigmaY(sigmaY)
 {
@@ -63,13 +66,13 @@ GaussianKernel::GaussianKernel(byte size, float sigma)
 	GaussianKernel(size, size, sigma, sigma);
 }
 
-GaussianKernel::~GaussianKernel()
-{
-	std::vector<float>().swap(Kernel);
-}
+//GaussianKernel::~GaussianKernel()
+//{
+//	std::vector<float>().swap(Kernel);
+//}
 
 
-MotionBlur::MotionBlur(byte size, float angle)
+LinearMotionBlurKernel::LinearMotionBlurKernel(byte size, float angle)
 {
 	VerticalSize = size;
 	HorizontalSize = size;
@@ -79,13 +82,22 @@ MotionBlur::MotionBlur(byte size, float angle)
 	CalculateKernel(size, angle);
 }
 
-MotionBlur::~MotionBlur()
-{
-}
+//LinearMotionBlurKernel::~LinearMotionBlurKernel()
+//{
+//}
 
-void MotionBlur::CalculateKernel(byte size, float angle)
+void LinearMotionBlurKernel::CalculateKernel(byte size, float angle)
 {
+	// From the implementation of fspecial in Matlab
+	//https://www.mathworks.com/help/images/ref/fspecial.html
 
+	float phi = DegreeToRadian(angle);
+	float cosphi = cos(phi);
+	float sinphi = sin(phi);
+	int xsign = cosphi >= 0 ? 1 : -1;
+	byte linewdt = 1;
+	auto sx = (int)(RadiusH*cosphi + linewdt * xsign);
+	auto sy = (int)(RadiusH*sinphi + linewdt);
 }
 
 MedianKernel::MedianKernel(byte size = 3)
@@ -101,3 +113,11 @@ MedianKernel::MedianKernel(byte sizeX, byte sizeY)
 	RadiusH = (HorizontalSize - 1) / 2;
 	RadiusV = (VerticalSize - 1) / 2;
 }
+
+LaplacianKernel::LaplacianKernel(float alpha)
+{
+}
+
+//LaplacianKernel::~LaplacianKernel()
+//{
+//}

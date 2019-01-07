@@ -152,7 +152,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\FastGaussianFilter2D.h" />
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Laplacian.h" />
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\LaplacianOfGaussian2D.h" />
     <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\MeanFilterByTwo1DKernels.h" />
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Sobel.h" />
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\UnsharpMaskFilter.h" />
     <ClInclude Include="LinearMotionBlur2D.h" />
     <ClInclude Include="BilateralFilter2D.h" />
     <ClInclude Include="FilterBase.h" />
@@ -165,7 +169,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\FastGaussianFilter2D.cpp" />
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Laplacian.cpp" />
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\LaplacianOfGaussian2D.cpp" />
     <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\MeanFilterByTwo1DKernels.cpp" />
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Sobel.cpp" />
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\UnsharpMaskFilter.cpp" />
     <ClCompile Include="MotionBlur2D.cpp" />
     <ClCompile Include="BilateralFilter2D.cpp" />
     <ClCompile Include="FilterBase.cpp" />

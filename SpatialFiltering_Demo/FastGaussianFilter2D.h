@@ -5,7 +5,7 @@
 // Mathsmaticl derivation http://web.csse.uwa.edu.au/research/?a=826172
 
 class FastGaussianFilter2D :
-	public FilterBase
+	public Filter2D
 {
 public:
 	FastGaussianFilter2D();

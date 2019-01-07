@@ -8,7 +8,6 @@ public:
 	BilateralFilter2D(float sigmaS, float sigmaP);
 	BilateralFilter2D(float sigmaS, byte N, float sigmaP);
 	~BilateralFilter2D();
-protected:
 
 public:
 	void Apply(const ushort* imageIn, int height, int width, ushort* imageOut);

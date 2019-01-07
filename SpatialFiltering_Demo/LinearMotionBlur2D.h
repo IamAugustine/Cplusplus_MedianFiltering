@@ -1,7 +1,7 @@
 #pragma once
 #include "FilterBase.h"
 class LinearMotionBlur2D :
-	public FilterBase
+	public Filter2D
 {
 public:
 	LinearMotionBlur2D(unsigned char distance, float angle);

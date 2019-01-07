@@ -1,7 +1,7 @@
 #pragma once
 #include "FilterBase.h"
 class MedianFilter2D :
-	public FilterBase
+	public Filter2D
 {
 public:
 	MedianFilter2D();
@@ -10,10 +10,11 @@ public:
 	~MedianFilter2D();
 	void Apply(const ushort* imageIn, int height, int width, ushort* imageOut);
 	void FilterBlock(const ushort* imgIn, ushort* imgOut);
+	//void KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp);
+	//deque<ushort> InitializeDeque(const ushort * imgIn, const int y);
 private:
 	int blockHeight;
-	void KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp);
-	deque<ushort> InitializeDeque(const ushort * imgIn, const int y);
+
 	
 };
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "FilterBase.h"
 class MeanFilterByTwo1DKernels :
-	public FilterBase
+	public Filter2D
 {
 public:
 	MeanFilterByTwo1DKernels(byte kernelSize);

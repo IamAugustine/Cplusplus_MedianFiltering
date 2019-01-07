@@ -10,19 +10,22 @@
 using namespace std;
 typedef unsigned short ushort;
 
-class FilterBase
+class Filter2D
 {
 public:
-	FilterBase();
-	~FilterBase();
+	Filter2D();
+	~Filter2D();
 protected:
 	int ImageHeight ;
 	int ImageWidth ;
 	FilterKernel* Kernel;
 	int blockHeight;
 public:
-	virtual void Apply(const ushort* imageIn, int height, int width, ushort* imageOut) = 0;
-	virtual void FilterBlock(const ushort* imgIn, ushort* imgOut) = 0;
+	void Apply(const ushort* imageIn, int height, int width, ushort* imageOut);
+	void FilterBlock(const ushort* imgIn, ushort* imgOut) ;
+	void KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp);
+	deque<ushort> InitializeDeque(const ushort * imgIn, const int y);
+	ushort Calculate(deque<ushort> data);
 public:
 	int GetCPUCoreNumber();
 	ushort** SegmentImage(const ushort* imgIn, int blockNumber);

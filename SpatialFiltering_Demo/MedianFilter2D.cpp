@@ -46,31 +46,31 @@ void MedianFilter2D::Apply(const ushort * imageIn, int height, int width, ushort
 	delete fltdSegmentts;
 }
 
-void MedianFilter2D::KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp)
-{
-	tmp.erase(tmp.begin(), tmp.begin() + Kernel->VerticalSize);
-	int newClmIndex = clmIndexToAdd >= ImageWidth ? 2 * ImageWidth - clmIndexToAdd : clmIndexToAdd;//Mirror boundary
-	for (int i = -1 * Kernel->RadiusV; i <= Kernel->RadiusV; i++)
-	{
-		int kernelRowIndex = (rowIndex + i)*ImageWidth + newClmIndex;
-		tmp.push_back(imgIn[kernelRowIndex]);
-	}
-}
-
-deque<ushort> MedianFilter2D::InitializeDeque(const ushort * imgIn, const int y)
-{
-	//const size_t kernelSize = boundary * 2 + 1;
-	deque<ushort> originKernel;
-	for (int kx = -1 * Kernel->RadiusH; kx <= Kernel->RadiusH; kx++)
-	{
-		for (int ky = -1 * Kernel->RadiusV; ky <= 1 * Kernel->RadiusV; ky++)
-		{
-			int pixel00Index = (ky + Kernel->RadiusV + y)*ImageWidth + abs(kx);
-			originKernel.push_back(imgIn[pixel00Index]);
-		}
-	}
-	return originKernel;
-}
+//void MedianFilter2D::KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp)
+//{
+//	tmp.erase(tmp.begin(), tmp.begin() + Kernel->VerticalSize);
+//	int newClmIndex = clmIndexToAdd >= ImageWidth ? 2 * ImageWidth - clmIndexToAdd : clmIndexToAdd;//Mirror boundary
+//	for (int i = -1 * Kernel->RadiusV; i <= Kernel->RadiusV; i++)
+//	{
+//		int kernelRowIndex = (rowIndex + i)*ImageWidth + newClmIndex;
+//		tmp.push_back(imgIn[kernelRowIndex]);
+//	}
+//}
+//
+//deque<ushort> MedianFilter2D::InitializeDeque(const ushort * imgIn, const int y)
+//{
+//	//const size_t kernelSize = boundary * 2 + 1;
+//	deque<ushort> originKernel;
+//	for (int kx = -1 * Kernel->RadiusH; kx <= Kernel->RadiusH; kx++)
+//	{
+//		for (int ky = -1 * Kernel->RadiusV; ky <= 1 * Kernel->RadiusV; ky++)
+//		{
+//			int pixel00Index = (ky + Kernel->RadiusV + y)*ImageWidth + abs(kx);
+//			originKernel.push_back(imgIn[pixel00Index]);
+//		}
+//	}
+//	return originKernel;
+//}
 
 void MedianFilter2D::FilterBlock(const ushort * imgIn, ushort * imgOut)
 {
