@@ -22,28 +22,28 @@ MeanFilter2D::~MeanFilter2D()
 	
 }
 
-void MeanFilter2D::Apply(const ushort * imageIn, int height, int width, ushort * imageOut)
-{
-	ImageHeight = height;
-	ImageWidth = width;
-	deque<int> dataSegment;
-	size_t threadCount = GetCPUCoreNumber();
-	blockHeight = ImageHeight / threadCount + Kernel->RadiusV * 2;
-	ushort** fltdSegmentts = new ushort*[threadCount];
-	ushort** blockSegments = SegmentImage(imageIn, threadCount);
-	for (size_t i = 0; i < threadCount; i++)
-	{
-		fltdSegmentts[i] = new ushort[blockHeight*ImageWidth];
-		thread t(&MeanFilter2D::FilterBlock, this, blockSegments[i], fltdSegmentts[i]);//"this" is the key for C2839
-		if (t.joinable()) t.join();
-	}
-	delete blockSegments;
-
-	ReconstructImage(fltdSegmentts, imageOut, threadCount, blockHeight);
-
-	delete fltdSegmentts;
-
-}
+//void MeanFilter2D::Apply(const ushort * imageIn, int height, int width, ushort * imageOut)
+//{
+//	ImageHeight = height;
+//	ImageWidth = width;
+//	deque<int> dataSegment;
+//	size_t threadCount = GetCPUCoreNumber();
+//	blockHeight = ImageHeight / threadCount + Kernel->RadiusV * 2;
+//	ushort** fltdSegmentts = new ushort*[threadCount];
+//	ushort** blockSegments = SegmentImage(imageIn, threadCount);
+//	for (size_t i = 0; i < threadCount; i++)
+//	{
+//		fltdSegmentts[i] = new ushort[blockHeight*ImageWidth];
+//		thread t(&MeanFilter2D::FilterBlock, this, blockSegments[i], fltdSegmentts[i]);//"this" is the key for C2839
+//		if (t.joinable()) t.join();
+//	}
+//	delete blockSegments;
+//
+//	ReconstructImage(fltdSegmentts, imageOut, threadCount, blockHeight);
+//
+//	delete fltdSegmentts;
+//
+//}
 
 void MeanFilter2D::FilterBlock(const ushort * imageIn, ushort * imageOut)
 {
@@ -51,7 +51,7 @@ void MeanFilter2D::FilterBlock(const ushort * imageIn, ushort * imageOut)
 	//std::deque<ushort> tempDeque;
 	for (size_t rowIndex = Kernel->RadiusV; rowIndex < blockHeight - Kernel->RadiusV; rowIndex++)
 	{
-		kernelDeque = InitializeDeque(imageIn, rowIndex);
+		kernelDeque = InitializeDeque2(imageIn, rowIndex);
 		//tempDeque = kernelDeque;
 		int newClmIndex = 0;
 		float mean = 0;
@@ -82,7 +82,7 @@ void MeanFilter2D::KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIn
 	}
 }
 
-deque<float> MeanFilter2D::InitializeDeque(const ushort * imgIn, const int y)
+deque<float> MeanFilter2D::InitializeDeque2(const ushort * imgIn, const int y)
 {
 	deque<float> originKernel;
 	for (int kx = -1 * Kernel->RadiusH; kx <= Kernel->RadiusH; kx++)
@@ -96,4 +96,14 @@ deque<float> MeanFilter2D::InitializeDeque(const ushort * imgIn, const int y)
 		originKernel.push_back(mean);
 	}
 	return originKernel;
+}
+
+void MeanFilter2D::ProcessingBlocks(ushort ** blocksIn, byte blockHeight, byte threadCount, ushort ** blocksOut)
+{
+	for (size_t i = 0; i < threadCount; i++)
+	{
+		blocksIn[i] = new ushort[blockHeight*ImageWidth];
+		thread t(fun, this, blocksIn[i], blocksOut[i]);//"this" is the key for C2839
+		if (t.joinable()) t.join();
+	}
 }

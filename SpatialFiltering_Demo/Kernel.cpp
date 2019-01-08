@@ -8,22 +8,12 @@ template<typename T> inline float DegreeToRadian(T t) {return ((int)t % 180) * P
 FilterKernel::FilterKernel()
 {
 }
-
 FilterKernel::~FilterKernel()
 {
 	std::vector<float>().swap(Kernel);
 }
 
-MeanKernel::MeanKernel()
-{
-}
-
-MeanKernel::MeanKernel(byte kernelSize)
-{
-	MeanKernel(kernelSize, kernelSize);
-	
-
-}
+//MeanKernel::MeanKernel(byte kernelSize) :MeanKernel(kernelSize, kernelSize) {}
 
 MeanKernel::MeanKernel(byte verticalSize, byte horizontalSize)
 {
@@ -35,23 +25,18 @@ MeanKernel::MeanKernel(byte verticalSize, byte horizontalSize)
 	std::fill(Kernel.begin(), Kernel.end(), 1.0f / verticalSize * horizontalSize);
 }
 
-//MeanKernel::~MeanKernel()
-//{
-//	std::vector<float>().swap(Kernel);
-//}
-
 GaussianKernel::GaussianKernel(byte sizeX, byte sizeY, float sigmaX, float sigmaY):sigmaX(sigmaX), sigmaY(sigmaY)
 {
 	VerticalSize = sizeY;
 	HorizontalSize = sizeX;
-	Kernel.resize(sizeX*sizeY);
+	Kernel.clear();
 	RadiusH = (HorizontalSize - 1) / 2;
 	RadiusV = (VerticalSize - 1) / 2;
 	float sum = 0;
 	float constItem = 1 / (2 * PI*sigmaX*sigmaY);
-	for (int i = 0; i <= HorizontalSize; i++)
+	for (int i = 0; i < HorizontalSize; i++)
 	{
-		for (int j = 0; j <= VerticalSize; j++)
+		for (int j = 0; j < VerticalSize; j++)
 		{
 			float gValue = constItem * exp(-1 * (Square(i - RadiusH) / (2 * Square(sigmaX)) + Square(j - RadiusV) / (2 * Square(sigmaY))));
 			sum += gValue;
@@ -61,15 +46,8 @@ GaussianKernel::GaussianKernel(byte sizeX, byte sizeY, float sigmaX, float sigma
 	std::transform(Kernel.begin(), Kernel.end(), Kernel.begin(), [&](float c) {return c / sum; });
 }
 
-GaussianKernel::GaussianKernel(byte size, float sigma)
-{
-	GaussianKernel(size, size, sigma, sigma);
-}
+//GaussianKernel::GaussianKernel(byte size, float sigma) :GaussianKernel(size, size, sigma, sigma) {}
 
-//GaussianKernel::~GaussianKernel()
-//{
-//	std::vector<float>().swap(Kernel);
-//}
 
 
 LinearMotionBlurKernel::LinearMotionBlurKernel(byte size, float angle)
@@ -82,9 +60,6 @@ LinearMotionBlurKernel::LinearMotionBlurKernel(byte size, float angle)
 	CalculateKernel(size, angle);
 }
 
-//LinearMotionBlurKernel::~LinearMotionBlurKernel()
-//{
-//}
 
 void LinearMotionBlurKernel::CalculateKernel(byte size, float angle)
 {
@@ -100,10 +75,7 @@ void LinearMotionBlurKernel::CalculateKernel(byte size, float angle)
 	auto sy = (int)(RadiusH*sinphi + linewdt);
 }
 
-MedianKernel::MedianKernel(byte size = 3)
-{
-	MedianKernel(size, size);
-}
+//MedianKernel::MedianKernel(byte size = 3) :MedianKernel(size, size) {}
 
 MedianKernel::MedianKernel(byte sizeX, byte sizeY)
 {
@@ -116,8 +88,12 @@ MedianKernel::MedianKernel(byte sizeX, byte sizeY)
 
 LaplacianKernel::LaplacianKernel(float alpha)
 {
+	Kernel.resize(9);
+	Kernel[5] = 4 / (1 + alpha);
+	Kernel[0] = Kernel[2] = Kernel[6] = Kernel[8] = alpha / (1 + alpha);
+	Kernel[1] = Kernel[3] = Kernel[5] = Kernel[7] = (1 - alpha) / (1 + alpha);
 }
 
-//LaplacianKernel::~LaplacianKernel()
-//{
-//}
+LaplacianOfGaussianKernel::LaplacianOfGaussianKernel(float alpha, float sigma)
+{
+}

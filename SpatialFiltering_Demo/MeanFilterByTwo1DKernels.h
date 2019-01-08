@@ -7,8 +7,11 @@ public:
 	MeanFilterByTwo1DKernels(byte kernelSize);
 	MeanFilterByTwo1DKernels(byte sizeX, byte sizeY);
 	~MeanFilterByTwo1DKernels();
-	void Apply(const ushort* imageIn, int height, int width, ushort* imageOut);
+public:
+	//void Apply(const ushort* imageIn, int height, int width, ushort* imageOut);
 	void FilterBlock(const ushort* imageIn, ushort* imageOut);
+	void ProcessingBlocks(ushort** blocksIn, byte blockHeight, byte threadCount, ushort** blocksOut);
+	void (MeanFilterByTwo1DKernels::*fun)(const ushort*, ushort*);
 private:
 	int blockHeight;
 	void MeanFilter1D_H(const ushort* imageIn, ushort* imageOut);

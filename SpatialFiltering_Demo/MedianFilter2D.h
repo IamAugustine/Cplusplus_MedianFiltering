@@ -8,10 +8,10 @@ public:
 	MedianFilter2D(int size);
 	MedianFilter2D(int sizeX, int sizeY);
 	~MedianFilter2D();
-	void Apply(const ushort* imageIn, int height, int width, ushort* imageOut);
+public:
 	void FilterBlock(const ushort* imgIn, ushort* imgOut);
-	//void KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp);
-	//deque<ushort> InitializeDeque(const ushort * imgIn, const int y);
+	void ProcessingBlocks(ushort** blocksIn, byte blockHeight, byte threadCount, ushort** blocksOut);
+	void (MedianFilter2D::*fun)(const ushort*, ushort*) = &MedianFilter2D::FilterBlock;
 private:
 	int blockHeight;
 

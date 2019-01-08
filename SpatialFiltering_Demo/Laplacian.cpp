@@ -1,12 +1,13 @@
 #include "pch.h"
-#include "Laplacian.h"
+#include "Laplacian2D.h"
 
 
 
-Laplacian::Laplacian(float alpha)
+Laplacian2D::Laplacian2D(float alpha)
 {
+	Kernel = new LaplacianKernel(alpha);
 }
 
-Laplacian::~Laplacian()
+Laplacian2D::~Laplacian2D()
 {
 }

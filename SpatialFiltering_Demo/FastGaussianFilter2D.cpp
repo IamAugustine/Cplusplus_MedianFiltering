@@ -25,27 +25,6 @@ FastGaussianFilter2D::~FastGaussianFilter2D()
 {
 }
 
-void FastGaussianFilter2D::Apply(const ushort * imageIn, int height, int width, ushort * imageOut)
-{
-	ImageHeight = height;
-	ImageWidth = width;
-	deque<int> dataSegment;
-	size_t threadCount = GetCPUCoreNumber();
-	blockHeight = ImageHeight / threadCount + Kernel->RadiusV * 2;
-	ushort** fltdSegmentts = new ushort*[threadCount];
-	ushort** blockSegments = SegmentImage(imageIn, threadCount);
-	for (size_t i = 0; i < threadCount; i++)
-	{
-		fltdSegmentts[i] = new ushort[blockHeight*ImageWidth];
-		thread t(&FastGaussianFilter2D::FilterBlock, this, blockSegments[i], fltdSegmentts[i]);//"this" is the key for C2839
-		if (t.joinable()) t.join();
-	}
-	delete blockSegments;
-
-	ReconstructImage(fltdSegmentts, imageOut, threadCount, blockHeight);
-
-	delete fltdSegmentts;
-}
 
 void FastGaussianFilter2D::FilterBlock(const ushort * imageIn, ushort * imageOut)
 {
@@ -59,6 +38,16 @@ void FastGaussianFilter2D::FilterBlock(const ushort * imageIn, ushort * imageOut
 		memcpy(imageOut, temp, blockHeight*ImageWidth);
 	}
 	delete temp;
+}
+
+void FastGaussianFilter2D::ProcessingBlocks(ushort ** blocksIn, byte blockHeight, byte threadCount, ushort ** blocksOut)
+{
+	for (size_t i = 0; i < threadCount; i++)
+	{
+		blocksIn[i] = new ushort[blockHeight*ImageWidth];
+		thread t(fun, this, blocksIn[i], blocksOut[i]);//"this" is the key for C2839
+		if (t.joinable()) t.join();
+	}
 }
 
 void FastGaussianFilter2D::EstimateBoxBlurParameters(float sigma, byte n, byte* kernelSize)//n is the number of round of box blurring.  

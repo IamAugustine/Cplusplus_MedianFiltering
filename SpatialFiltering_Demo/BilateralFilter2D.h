@@ -8,14 +8,14 @@ public:
 	BilateralFilter2D(float sigmaS, float sigmaP);
 	BilateralFilter2D(float sigmaS, byte N, float sigmaP);
 	~BilateralFilter2D();
-
 public:
-	void Apply(const ushort* imageIn, int height, int width, ushort* imageOut);
 	ushort Calculate(deque<ushort> data);
 	void FilterBlock(const ushort* imageIn, ushort* imageOut);
-	void CalculatePixelGaussian();
+	void ProcessingBlocks(ushort** blocksIn, byte blockHeight, byte threadCount, ushort** blocksOut);
+	void (BilateralFilter2D::*fun)(const ushort*, ushort*) = &BilateralFilter2D::FilterBlock;
 private:
 	float* pixelWeight;
+	void CalculatePixelGaussian();
 	int blockHeight;
 	float sigmaS;
 	float sigmaP;

@@ -6,7 +6,7 @@
 BilateralFilter2D::BilateralFilter2D(float sigmaS, float sigmaP):sigmaS(sigmaS),sigmaP(sigmaP)
 {
 	CalculatePixelGaussian();
-	Kernel = new GaussianKernel(EstimateSizebySigmaOnly(sigmaS),sigmaS);
+	Kernel = (new GaussianKernel(EstimateSizebySigmaOnly(sigmaS),sigmaS));
 }
 
 BilateralFilter2D::BilateralFilter2D(float sigmaS, byte N, float sigmaP) : sigmaS(sigmaS), sigmaP(sigmaP)
@@ -19,33 +19,10 @@ BilateralFilter2D::~BilateralFilter2D()
 {
 }
 
-void BilateralFilter2D::Apply(const ushort * imageIn, int height, int width, ushort * imageOut)
-{
-	ImageHeight = height;
-	ImageWidth = width;
-	deque<int> dataSegment;
-	size_t threadCount = GetCPUCoreNumber();
-	blockHeight = ImageHeight / threadCount + Kernel->RadiusV * 2;
-
-	ushort** fltdSegmentts = new ushort*[threadCount];
-	ushort** blockSegments = SegmentImage(imageIn, threadCount);
-	for (size_t i = 0; i < threadCount; i++)
-	{
-		fltdSegmentts[i] = new ushort[blockHeight*ImageWidth];
-		thread t(&BilateralFilter2D::FilterBlock, this, blockSegments[i], fltdSegmentts[i]);//"this" is the key for C2839
-		if (t.joinable()) t.join();
-	}
-	delete blockSegments;
-
-	ReconstructImage(fltdSegmentts, imageOut, threadCount, blockHeight);
-
-	delete fltdSegmentts;
-}
-
 ushort BilateralFilter2D::Calculate(deque<ushort> data)
 {
 	float v = 0;
-	ushort p = data.at(Kernel->RadiusH);
+	ushort p = data.at((data.size() - 1) / 2);
 	std::transform(data.begin(), data.end(), Kernel->Kernel.begin(), Kernel->Kernel.begin(), [&v, &p, this](ushort d, float f) {v += d * f * pixelWeight[abs(d-p)]; return f; });
 	return (ushort)(v + 0.5);
 }
@@ -69,15 +46,31 @@ void BilateralFilter2D::FilterBlock(const ushort * imageIn, ushort * imageOut)
 	}
 }
 
+void BilateralFilter2D::ProcessingBlocks(ushort ** blocksIn, byte blockHeight, byte threadCount, ushort ** blocksOut)
+{
+	for (size_t i = 0; i < threadCount; i++)
+	{
+		blocksOut[i] = new ushort[blockHeight*ImageWidth];
+		thread t(fun, this, blocksIn[i], blocksOut[i]);//"this" is the key for C2839
+		if (t.joinable()) t.join();
+	}
+}
+
+
 void BilateralFilter2D::CalculatePixelGaussian()
 {
 	unsigned char threeSigma = round(3 * sigmaP);
 	pixelWeight = new float[threeSigma];
+	float sum = 0;
 	for (byte i = 0; i < threeSigma; i++)
 	{
 		pixelWeight[i] = exp(-1 * i*i / sigmaP / sigmaP) / sqrt(2 * PI) / sigmaP;
+		sum += abs(pixelWeight[i]);
 	}
-
+	for (byte i = 0; i < threeSigma; i++)
+	{
+		pixelWeight[i] /= sum;
+	}
 }
 
 

@@ -4,6 +4,7 @@
 
 Filter2D::Filter2D()
 {
+	
 }
 
 
@@ -21,12 +22,9 @@ void Filter2D::Apply(const ushort * imageIn, int height, int width, ushort * ima
 	//int** blockSegments = new int*[threadCount];
 	ushort** fltdSegmentts = new ushort*[threadCount];
 	ushort** blockSegments = SegmentImage(imageIn, threadCount);
-	for (size_t i = 0; i < threadCount; i++)
-	{
-		fltdSegmentts[i] = new ushort[blockHeight*ImageWidth];
-		thread t(&Filter2D::FilterBlock, this, blockSegments[i], fltdSegmentts[i]);//"this" is the key for C2839
-		if (t.joinable()) t.join();
-	}
+
+	ProcessingBlocks(blockSegments, blockHeight, threadCount, fltdSegmentts);
+
 	delete blockSegments;
 
 	ReconstructImage(fltdSegmentts, imageOut, threadCount, blockHeight);
@@ -83,6 +81,16 @@ ushort Filter2D::Calculate(deque<ushort> data)
 	float v = 0;
 	std::transform(data.begin(), data.end(), Kernel->Kernel.begin(), Kernel->Kernel.begin(), [&](ushort d, float f) {v += d * f; return f; });
 	return (ushort)(v + 0.5);
+}
+
+void Filter2D::ProcessingBlocks(ushort ** blocksIn, byte blockHeight, byte threadCount, ushort ** blocksOut)
+{
+	for (size_t i = 0; i < threadCount; i++)
+	{
+		blocksOut[i] = new ushort[blockHeight*ImageWidth];
+		thread t(fun, this, blocksIn[i], blocksOut[i]);//"this" is the key for C2839
+		if (t.joinable()) t.join();
+	}
 }
 
 int Filter2D::GetCPUCoreNumber()

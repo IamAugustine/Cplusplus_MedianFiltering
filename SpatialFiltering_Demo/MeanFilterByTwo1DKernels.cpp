@@ -19,27 +19,27 @@ MeanFilterByTwo1DKernels::~MeanFilterByTwo1DKernels()
 	delete Kernel;
 }
 
-void MeanFilterByTwo1DKernels::Apply(const ushort * imageIn, int height, int width, ushort * imageOut)
-{
-	ImageHeight = height;
-	ImageWidth = width;
-	deque<int> dataSegment;
-	size_t threadCount = GetCPUCoreNumber();
-	blockHeight = ImageHeight / threadCount + Kernel->RadiusV * 2;
-	ushort** fltdSegmentts = new ushort*[threadCount];
-	ushort** blockSegments = SegmentImage(imageIn, threadCount);
-	for (size_t i = 0; i < threadCount; i++)
-	{
-		fltdSegmentts[i] = new ushort[blockHeight*ImageWidth];
-		thread t(&MeanFilterByTwo1DKernels::FilterBlock, this, blockSegments[i], fltdSegmentts[i]);//"this" is the key for C2839
-		if (t.joinable()) t.join();
-	}
-	delete blockSegments;
-
-	ReconstructImage(fltdSegmentts, imageOut, threadCount, blockHeight);
-
-	delete fltdSegmentts;
-}
+//void MeanFilterByTwo1DKernels::Apply(const ushort * imageIn, int height, int width, ushort * imageOut)
+//{
+//	ImageHeight = height;
+//	ImageWidth = width;
+//	deque<int> dataSegment;
+//	size_t threadCount = GetCPUCoreNumber();
+//	blockHeight = ImageHeight / threadCount + Kernel->RadiusV * 2;
+//	ushort** fltdSegmentts = new ushort*[threadCount];
+//	ushort** blockSegments = SegmentImage(imageIn, threadCount);
+//	for (size_t i = 0; i < threadCount; i++)
+//	{
+//		fltdSegmentts[i] = new ushort[blockHeight*ImageWidth];
+//		thread t(&MeanFilterByTwo1DKernels::FilterBlock, this, blockSegments[i], fltdSegmentts[i]);//"this" is the key for C2839
+//		if (t.joinable()) t.join();
+//	}
+//	delete blockSegments;
+//
+//	ReconstructImage(fltdSegmentts, imageOut, threadCount, blockHeight);
+//
+//	delete fltdSegmentts;
+//}
 
 void MeanFilterByTwo1DKernels::FilterBlock(const ushort * imageIn, ushort * imageOut)
 {
@@ -47,6 +47,16 @@ void MeanFilterByTwo1DKernels::FilterBlock(const ushort * imageIn, ushort * imag
 	MeanFilter1D_H(imageIn, temp);
 	MeanFilter1D_T(temp, imageOut);
 	delete temp;
+}
+
+void MeanFilterByTwo1DKernels::ProcessingBlocks(ushort ** blocksIn, byte blockHeight, byte threadCount, ushort ** blocksOut)
+{
+	for (size_t i = 0; i < threadCount; i++)
+	{
+		blocksIn[i] = new ushort[blockHeight*ImageWidth];
+		thread t(fun, this, blocksIn[i], blocksOut[i]);//"this" is the key for C2839
+		if (t.joinable()) t.join();
+	}
 }
 
 void MeanFilterByTwo1DKernels::MeanFilter1D_H(const ushort * imageIn, ushort * imageOut)

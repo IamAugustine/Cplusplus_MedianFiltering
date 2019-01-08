@@ -1,10 +1,19 @@
 #pragma once
 #include "FilterBase.h"
-class Sobel :
+
+	enum Direction
+	{
+		Vertical,
+		Horizontal,
+		Both
+	};
+class Sobel2D :
 	public Filter2D
 {
+
 public:
-	Sobel();
-	~Sobel();
+	Sobel2D(Direction direction);
+	~Sobel2D();
+
 };
 

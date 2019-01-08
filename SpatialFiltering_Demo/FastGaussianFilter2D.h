@@ -12,8 +12,10 @@ public:
 	FastGaussianFilter2D(float sigma);
 	FastGaussianFilter2D(float sigma, int round);
 	~FastGaussianFilter2D();
-	void Apply(const ushort* imageIn, int height, int width, ushort* imageOut);
+public:
 	void FilterBlock(const ushort* imageIn, ushort* imageOut);
+	void ProcessingBlocks(ushort** blocksIn, byte blockHeight, byte threadCount, ushort** blocksOut);
+	void (FastGaussianFilter2D::*fun)(const ushort*, ushort*) = &FastGaussianFilter2D::FilterBlock;
 private:
 	void EstimateBoxBlurParameters(float sigma, byte n, byte* kernelSize);
 	byte* kernelSizes;

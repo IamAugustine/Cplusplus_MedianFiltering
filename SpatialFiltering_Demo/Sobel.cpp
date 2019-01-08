@@ -2,11 +2,12 @@
 #include "Sobel.h"
 
 
-Sobel::Sobel()
+
+
+Sobel2D::Sobel2D(Direction direction)
 {
 }
 
-
-Sobel::~Sobel()
+Sobel2D::~Sobel2D()
 {
 }

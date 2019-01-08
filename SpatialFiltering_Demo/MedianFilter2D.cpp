@@ -10,6 +10,7 @@ MedianFilter2D::MedianFilter2D()
 
 MedianFilter2D::MedianFilter2D(int kernelSize)
 {
+	
 	Kernel = new MedianKernel(kernelSize);
 }
 
@@ -23,28 +24,23 @@ MedianFilter2D::~MedianFilter2D()
 {
 }
 
-void MedianFilter2D::Apply(const ushort * imageIn, int height, int width, ushort * imageOut)
-{
-	ImageHeight = height;
-	ImageWidth = width;
-	deque<int> dataSegment;
-	size_t threadCount = GetCPUCoreNumber();
-	blockHeight = ImageHeight / threadCount + Kernel->RadiusV * 2;
-
-	ushort** fltdSegmentts = new ushort*[threadCount];
-	ushort** blockSegments = SegmentImage(imageIn, threadCount);
-	for (size_t i = 0; i < threadCount; i++)
-	{
-		fltdSegmentts[i] = new ushort[blockHeight*ImageWidth];
-		thread t (&MedianFilter2D::FilterBlock,this,blockSegments[i], fltdSegmentts[i] );//"this" is the key for C2839
-		if (t.joinable()) t.join();
-	}
-	delete blockSegments;
-
-	ReconstructImage(fltdSegmentts, imageOut, threadCount, blockHeight);
-
-	delete fltdSegmentts;
-}
+//void MedianFilter2D::Apply(const ushort * imageIn, int height, int width, ushort * imageOut)
+//{
+//	ImageHeight = height;
+//	ImageWidth = width;
+//	deque<int> dataSegment;
+//	size_t threadCount = GetCPUCoreNumber();
+//	blockHeight = ImageHeight / threadCount + Kernel->RadiusV * 2;
+//
+//	ushort** fltdSegmentts = new ushort*[threadCount];
+//	ushort** blockSegments = SegmentImage(imageIn, threadCount);
+//
+//	delete blockSegments;
+//
+//	ReconstructImage(fltdSegmentts, imageOut, threadCount, blockHeight);
+//
+//	delete fltdSegmentts;
+//}
 
 //void MedianFilter2D::KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp)
 //{
@@ -93,5 +89,15 @@ void MedianFilter2D::FilterBlock(const ushort * imgIn, ushort * imgOut)
 			imgOut[rowIndex * ImageWidth + newClmIndex] = tempDeque[tempDeque.size() / 2];
 			newClmIndex++;
 		}
+	}
+}
+
+void MedianFilter2D::ProcessingBlocks(ushort ** blocksIn, byte blockHeight, byte threadCount, ushort ** blocksOut)
+{
+	for (size_t i = 0; i < threadCount; i++)
+	{
+		blocksIn[i] = new ushort[blockHeight*ImageWidth];
+		thread t(fun, this, blocksIn[i], blocksOut[i]);//"this" is the key for C2839
+		if (t.joinable()) t.join();
 	}
 }

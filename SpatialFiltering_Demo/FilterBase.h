@@ -22,10 +22,12 @@ protected:
 	int blockHeight;
 public:
 	void Apply(const ushort* imageIn, int height, int width, ushort* imageOut);
-	void FilterBlock(const ushort* imgIn, ushort* imgOut) ;
-	void KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp);
-	deque<ushort> InitializeDeque(const ushort * imgIn, const int y);
-	ushort Calculate(deque<ushort> data);
+	virtual void FilterBlock(const ushort* imgIn, ushort* imgOut) ;
+	virtual void KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp);
+	virtual deque<ushort> InitializeDeque(const ushort * imgIn, const int y);
+	virtual ushort Calculate(deque<ushort> data);
+	virtual void ProcessingBlocks(ushort** blocksIn, byte blockHeight, byte threadCount, ushort** blocksOut);
+	void(Filter2D::*fun)(const ushort*, ushort*) = &Filter2D::FilterBlock;
 public:
 	int GetCPUCoreNumber();
 	ushort** SegmentImage(const ushort* imgIn, int blockNumber);

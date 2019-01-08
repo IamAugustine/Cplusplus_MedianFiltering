@@ -1,10 +1,10 @@
 #pragma once
 #include "FilterBase.h"
-class Laplacian :
+class Laplacian2D :
 	public Filter2D
 {
 public:
-	Laplacian(float alpha);
-	~Laplacian();
+	Laplacian2D(float alpha);
+	~Laplacian2D();
 };
 

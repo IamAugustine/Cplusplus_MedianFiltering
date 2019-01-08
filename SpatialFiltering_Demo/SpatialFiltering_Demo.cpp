@@ -5,6 +5,26 @@
 #include <iostream>
 #include "MedianFilter2D.h"
 #include "IOHelper.h"
+#include "MeanFilter2D.h"
+#include "GaussianFilter2D.h"
+#include "FastGaussianFilter2D.h"
+#include "Laplacian2D.h"
+#include "Sobel.h"
+#include "BilateralFilter2D.h"
+#include "FilterBase.h"
+#include "LinearMotionBlur2D.h"
+enum FilterType
+{
+	Mean,
+	Median,
+	Gaussian, 
+	Biliteral,
+	Laplacian,
+	LaplacianOfGaussian,
+	Sobel,
+	LinearMotion,
+	Custom,
+};
 int main()
 {
     std::cout << "Hello World!\n"; 
@@ -12,14 +32,69 @@ int main()
 	const char* saveFileName = "median_filtered_image.txt";
 	int height = 200;
 	int width = 200;
-	byte kernelSize = 7;
+	byte kernelSize = 5;
 	static ushort* imgData = IOHelper::ReadLocalFile<ushort>(filename, height, width);
 	static ushort* fltdImgData = new ushort[height *width];
 	
-	auto mdfilter = new MedianFilter2D(kernelSize);
-	
+	//auto mdfilter = new MedianFilter2D(kernelSize);
+	FilterType filterType = FilterType::Biliteral;
+	Filter2D* filterToApply;
+	switch (filterType)
+	{
+	case Mean:
+		filterToApply = new MeanFilter2D(kernelSize);
+		break;
+	case Median:
+		filterToApply = new MedianFilter2D(kernelSize);
+		break;
+	case Gaussian:
+	{
+		float sigma = 3;
+		filterToApply = new GaussianFilter2D(sigma);
+	}
+		break;
+	case Biliteral:
+	{
+		float sigmaS = 3;
+		float sigmaP = 5;
+		filterToApply = new BilateralFilter2D(sigmaS, sigmaP);
+	}
+		break;
+	case Laplacian:
+	{
+		float alpha = 0;
+		filterToApply = new Laplacian2D(alpha);
+	}
+		break;
+	case LaplacianOfGaussian:
+	{
+		filterToApply = nullptr;
+	}
+		break;
+	case Sobel:
+	{
+		Direction direction = Direction::Both;
+		filterToApply = new Sobel2D(direction);
+	}
+		break;
+	case LinearMotion:
+	{
+		byte size = 9;
+		float angle = 45;
+		filterToApply = new LinearMotionBlur2D(size, angle);
+	}
+		break;
+	case Custom:
+		filterToApply = new Filter2D();
+	default:
+	{
+		float sigma = 3;
+		filterToApply = new GaussianFilter2D(sigma);
+	}
+		break;
+	}
 
-	mdfilter->Apply(imgData,height,width, fltdImgData);
+	filterToApply->Apply(imgData,height,width, fltdImgData);
 	IOHelper::SaveToLocalFile(saveFileName, fltdImgData, height, width);
 }
 
