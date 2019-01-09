@@ -10,9 +10,9 @@ public:
 	~BilateralFilter2D();
 public:
 	ushort Calculate(deque<ushort> data);
-	void FilterBlock(const ushort* imageIn, ushort* imageOut);
+	void FilterBlock(  ushort* imageIn, ushort* imageOut);
 	void ProcessingBlocks(ushort** blocksIn, byte blockHeight, byte threadCount, ushort** blocksOut);
-	void (BilateralFilter2D::*fun)(const ushort*, ushort*) = &BilateralFilter2D::FilterBlock;
+	void (BilateralFilter2D::*fun)(  ushort*, ushort*) = &BilateralFilter2D::FilterBlock;
 private:
 	float* pixelWeight;
 	void CalculatePixelGaussian();

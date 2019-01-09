@@ -19,7 +19,7 @@ MeanFilterByTwo1DKernels::~MeanFilterByTwo1DKernels()
 	delete Kernel;
 }
 
-//void MeanFilterByTwo1DKernels::Apply(const ushort * imageIn, int height, int width, ushort * imageOut)
+//void MeanFilterByTwo1DKernels::Apply(  ushort * imageIn, int height, int width, ushort * imageOut)
 //{
 //	ImageHeight = height;
 //	ImageWidth = width;
@@ -36,12 +36,12 @@ MeanFilterByTwo1DKernels::~MeanFilterByTwo1DKernels()
 //	}
 //	delete blockSegments;
 //
-//	ReconstructImage(fltdSegmentts, imageOut, threadCount, blockHeight);
+//	Re ructImage(fltdSegmentts, imageOut, threadCount, blockHeight);
 //
 //	delete fltdSegmentts;
 //}
 
-void MeanFilterByTwo1DKernels::FilterBlock(const ushort * imageIn, ushort * imageOut)
+void MeanFilterByTwo1DKernels::FilterBlock(  ushort * imageIn, ushort * imageOut)
 {
 	ushort* temp = new ushort[blockHeight*ImageWidth];
 	MeanFilter1D_H(imageIn, temp);
@@ -59,7 +59,7 @@ void MeanFilterByTwo1DKernels::ProcessingBlocks(ushort ** blocksIn, byte blockHe
 	}
 }
 
-void MeanFilterByTwo1DKernels::MeanFilter1D_H(const ushort * imageIn, ushort * imageOut)
+void MeanFilterByTwo1DKernels::MeanFilter1D_H(  ushort * imageIn, ushort * imageOut)
 {
 	for (size_t rowIndex = Kernel->RadiusV; rowIndex < blockHeight - Kernel->RadiusV; rowIndex++)
 	{
@@ -80,7 +80,7 @@ void MeanFilterByTwo1DKernels::MeanFilter1D_H(const ushort * imageIn, ushort * i
 }
 
 
-void MeanFilterByTwo1DKernels::MeanFilter1D_T(const ushort * imageIn, ushort * imageOut)
+void MeanFilterByTwo1DKernels::MeanFilter1D_T(  ushort * imageIn, ushort * imageOut)
 {
 	for (size_t columnIndex = 0; columnIndex < ImageWidth; columnIndex++)
 	{
@@ -100,7 +100,7 @@ void MeanFilterByTwo1DKernels::MeanFilter1D_T(const ushort * imageIn, ushort * i
 	}
 }
 
-ushort MeanFilterByTwo1DKernels::GetFirstPixelPerRow(const ushort * imgIn, const int rowIndex)
+ushort MeanFilterByTwo1DKernels::GetFirstPixelPerRow(  ushort * imgIn,   int rowIndex)
 {
 	float mean = 0;
 		for (int kx = -1 * Kernel->RadiusH; kx <= 1 * Kernel->RadiusH; kx++)
@@ -112,7 +112,7 @@ ushort MeanFilterByTwo1DKernels::GetFirstPixelPerRow(const ushort * imgIn, const
 
 }
 
-ushort MeanFilterByTwo1DKernels::GetFirstPixelPerColumn(const ushort * imgIn, const int columnIndex)
+ushort MeanFilterByTwo1DKernels::GetFirstPixelPerColumn(  ushort * imgIn,   int columnIndex)
 {
 	float mean = 0;
 	for (int ky = 0; ky <= Kernel->VerticalSize; ky++)

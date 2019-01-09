@@ -27,7 +27,7 @@ ushort BilateralFilter2D::Calculate(deque<ushort> data)
 	return (ushort)(v + 0.5);
 }
 
-void BilateralFilter2D::FilterBlock(const ushort * imageIn, ushort * imageOut)
+void BilateralFilter2D::FilterBlock(  ushort * imageIn, ushort * imageOut)
 {
 	std::deque<ushort> kernelDeque;
 	//std::deque<ushort> tempDeque;

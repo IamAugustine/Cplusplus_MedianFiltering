@@ -26,7 +26,7 @@ FastGaussianFilter2D::~FastGaussianFilter2D()
 }
 
 
-void FastGaussianFilter2D::FilterBlock(const ushort * imageIn, ushort * imageOut)
+void FastGaussianFilter2D::FilterBlock(  ushort * imageIn, ushort * imageOut)
 {
 	MeanFilterByTwo1DKernels* filter;
 	ushort* temp = new ushort[blockHeight*ImageWidth];

@@ -33,12 +33,12 @@ GaussianKernel::GaussianKernel(byte sizeX, byte sizeY, float sigmaX, float sigma
 	RadiusH = (HorizontalSize - 1) / 2;
 	RadiusV = (VerticalSize - 1) / 2;
 	float sum = 0;
-	float constItem = 1 / (2 * PI*sigmaX*sigmaY);
+	float  Item = 1 / (2 * PI*sigmaX*sigmaY);
 	for (int i = 0; i < HorizontalSize; i++)
 	{
 		for (int j = 0; j < VerticalSize; j++)
 		{
-			float gValue = constItem * exp(-1 * (Square(i - RadiusH) / (2 * Square(sigmaX)) + Square(j - RadiusV) / (2 * Square(sigmaY))));
+			float gValue =  Item * exp(-1 * (Square(i - RadiusH) / (2 * Square(sigmaX)) + Square(j - RadiusV) / (2 * Square(sigmaY))));
 			sum += gValue;
 			Kernel.push_back(gValue);
 		}

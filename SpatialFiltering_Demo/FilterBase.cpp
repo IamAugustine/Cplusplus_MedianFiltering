@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "FilterBase.h"
 #include <Windows.h>
+#include "IOHelper.h"
 
 Filter2D::Filter2D()
 {
@@ -12,7 +13,7 @@ Filter2D::~Filter2D()
 {
 }
 
-void Filter2D::Apply(const ushort * imageIn, int height, int width, ushort * imageOut)
+void Filter2D::Apply(  ushort * imageIn, int height, int width, ushort * imageOut)
 {
 	ImageHeight = height;
 	ImageWidth = width;
@@ -32,7 +33,7 @@ void Filter2D::Apply(const ushort * imageIn, int height, int width, ushort * ima
 	delete fltdSegmentts;
 }
 
-void Filter2D::FilterBlock(const ushort * imageIn, ushort * imageOut)
+void Filter2D::FilterBlock(  ushort * imageIn, ushort * imageOut)
 {
 	std::deque<ushort> kernelDeque;
 	//std::deque<ushort> tempDeque;
@@ -42,7 +43,7 @@ void Filter2D::FilterBlock(const ushort * imageIn, ushort * imageOut)
 		//std::nth_element(tempDeque.begin(), tempDeque.begin() + tempDeque.size() / 2, tempDeque.end());
 		imageOut[rowIndex * ImageWidth] = Calculate(kernelDeque);
 		int newClmIndex = 1;
-		while (newClmIndex <= ImageWidth)
+		while (newClmIndex < ImageWidth)
 		{
 			KernelMoveRight(imageIn, rowIndex, newClmIndex + Kernel->RadiusH, kernelDeque);
 			imageOut[rowIndex * ImageWidth + newClmIndex] = Calculate(kernelDeque);
@@ -51,10 +52,10 @@ void Filter2D::FilterBlock(const ushort * imageIn, ushort * imageOut)
 	}
 }
 
-void Filter2D::KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp)
+void Filter2D::KernelMoveRight(  ushort * imgIn, int rowIndex, int clmIndexToAdd, deque<ushort>& tmp)
 {
 	tmp.erase(tmp.begin(), tmp.begin() + Kernel->VerticalSize);
-	int newClmIndex = clmIndexToAdd >= ImageWidth ? 2 * ImageWidth - clmIndexToAdd : clmIndexToAdd;//Mirror boundary
+	int newClmIndex = clmIndexToAdd >= ImageWidth ? 2 * ImageWidth - clmIndexToAdd-1 : clmIndexToAdd;//Mirror boundary
 	for (int i = -1 * Kernel->RadiusV; i <= Kernel->RadiusV; i++)
 	{
 		int kernelRowIndex = (rowIndex + i)*ImageWidth + newClmIndex;
@@ -62,14 +63,14 @@ void Filter2D::KernelMoveRight(const ushort * imgIn, int rowIndex, int clmIndexT
 	}
 }
 
-deque<ushort> Filter2D::InitializeDeque(const ushort * imgIn, const int y)
+deque<ushort> Filter2D::InitializeDeque(  ushort * imgIn,   int y)
 {
 	deque<ushort> originKernel;
 	for (int kx = -1 * Kernel->RadiusH; kx <= Kernel->RadiusH; kx++)
 	{
 		for (int ky = -1 * Kernel->RadiusV; ky <= 1 * Kernel->RadiusV; ky++)
 		{
-			int pixel00Index = (ky + Kernel->RadiusV + y)*ImageWidth + abs(kx);
+			int pixel00Index = (ky+ y)*ImageWidth + abs(kx);
 			originKernel.push_back(imgIn[pixel00Index]);
 		}
 	}
@@ -85,12 +86,14 @@ ushort Filter2D::Calculate(deque<ushort> data)
 
 void Filter2D::ProcessingBlocks(ushort ** blocksIn, byte blockHeight, byte threadCount, ushort ** blocksOut)
 {
+	
 	for (size_t i = 0; i < threadCount; i++)
 	{
 		blocksOut[i] = new ushort[blockHeight*ImageWidth];
 		thread t(fun, this, blocksIn[i], blocksOut[i]);//"this" is the key for C2839
 		if (t.joinable()) t.join();
 	}
+	IOHelper::SaveToLocalFile("f1.txt", blocksOut[0], blockHeight, ImageWidth);
 }
 
 int Filter2D::GetCPUCoreNumber()
@@ -100,7 +103,7 @@ int Filter2D::GetCPUCoreNumber()
 	return si.dwNumberOfProcessors;
 }
 
-ushort ** Filter2D::SegmentImage(const ushort * imgIn, int blockNumber)
+ushort ** Filter2D::SegmentImage(  ushort * imgIn, int blockNumber)
 {
 	ushort** segments = new ushort*[blockNumber];
 	ushort* temp = new ushort[(ImageHeight + Kernel->RadiusV * 2)*ImageWidth];
@@ -123,7 +126,7 @@ ushort ** Filter2D::SegmentImage(const ushort * imgIn, int blockNumber)
 	return segments;
 }
 
-void Filter2D::ReconstructImage(ushort ** segments, ushort * imgOut, int blockNumber, const int blockHeight)
+void Filter2D::ReconstructImage(ushort ** segments, ushort * imgOut, int blockNumber,   int blockHeight)
 {
 	size_t blockSize = (blockHeight - Kernel->RadiusV * 2)*ImageWidth;
 	int entryPoint = Kernel->RadiusV * ImageWidth;

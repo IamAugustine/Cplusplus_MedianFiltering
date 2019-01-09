@@ -37,7 +37,7 @@ int main()
 	static ushort* fltdImgData = new ushort[height *width];
 	
 	//auto mdfilter = new MedianFilter2D(kernelSize);
-	FilterType filterType = FilterType::Biliteral;
+	FilterType filterType = FilterType::Median;
 	Filter2D* filterToApply;
 	switch (filterType)
 	{
@@ -50,7 +50,7 @@ int main()
 	case Gaussian:
 	{
 		float sigma = 3;
-		filterToApply = new GaussianFilter2D(sigma);
+		filterToApply = new GaussianFilter2D(kernelSize, sigma);
 	}
 		break;
 	case Biliteral:
