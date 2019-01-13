@@ -3,12 +3,6 @@
 
 
 
-
-MeanFilterByTwo1DKernels::MeanFilterByTwo1DKernels(byte kernelSize)
-{
-	MeanFilterByTwo1DKernels(kernelSize, kernelSize);
-}
-
 MeanFilterByTwo1DKernels::MeanFilterByTwo1DKernels(byte sizeX, byte sizeY)
 {
 	Kernel = new MeanKernel(sizeY, sizeX);
@@ -61,7 +55,7 @@ void MeanFilterByTwo1DKernels::ProcessingBlocks(ushort ** blocksIn, byte blockHe
 
 void MeanFilterByTwo1DKernels::MeanFilter1D_H(  ushort * imageIn, ushort * imageOut)
 {
-	for (size_t rowIndex = Kernel->RadiusV; rowIndex < blockHeight - Kernel->RadiusV; rowIndex++)
+	for (size_t rowIndex = bndBufferHeight; rowIndex < blockHeight - bndBufferHeight; rowIndex++)
 	{
 		int rowOffset = rowIndex * ImageWidth;
 		imageOut[rowOffset] = GetFirstPixelPerRow(imageIn, rowIndex);
@@ -84,15 +78,15 @@ void MeanFilterByTwo1DKernels::MeanFilter1D_T(  ushort * imageIn, ushort * image
 {
 	for (size_t columnIndex = 0; columnIndex < ImageWidth; columnIndex++)
 	{
-		int columnOffset = columnIndex + Kernel->RadiusV*ImageWidth;
+		int columnOffset = columnIndex + bndBufferHeight *ImageWidth;
 		imageOut[columnOffset] = GetFirstPixelPerColumn(imageIn, columnIndex);
 		int newRowIndex = 1;
 		while (newRowIndex < ImageHeight)
 		{
-			int pixelToAdd = newRowIndex + Kernel->RadiusV;
+			int pixelToAdd = newRowIndex + bndBufferHeight;
 			if (pixelToAdd >= ImageHeight)
 				pixelToAdd = 2 * ImageHeight - pixelToAdd; //mirror boundary
-			int pixelToRemove = abs(newRowIndex - Kernel->RadiusV - 1);//mirror boundary
+			int pixelToRemove = abs(newRowIndex - bndBufferHeight - 1);//mirror boundary
 			imageOut[columnOffset + newRowIndex * ImageWidth] = ShiftPixel(imageOut[columnOffset + (newRowIndex - 1)*ImageWidth], imageIn[columnOffset + pixelToAdd * ImageWidth], imageIn[columnOffset + pixelToRemove * ImageWidth], Kernel->RadiusV);
 			//imageOut[rowOffset + newClmIndex] = (ushort)((imageOut[rowOffset + newClmIndex - 1]*Kernel->HorizontalSize + (imageIn[rowOffset + pixelToAdd] - imageIn[rowOffset + pixleToRemove])*1.0f / Kernel->HorizontalSize));
 			newRowIndex ++;
@@ -105,7 +99,7 @@ ushort MeanFilterByTwo1DKernels::GetFirstPixelPerRow(  ushort * imgIn,   int row
 	float mean = 0;
 		for (int kx = -1 * Kernel->RadiusH; kx <= 1 * Kernel->RadiusH; kx++)
 		{
-			int pixel00Index = (Kernel->RadiusV + rowIndex)*ImageWidth + abs(kx);
+			int pixel00Index = (bndBufferHeight + rowIndex)*ImageWidth + abs(kx);
 			mean += (float)(imgIn[pixel00Index]) / Kernel->HorizontalSize;
 		}
 		return (ushort)(mean + 0.5);

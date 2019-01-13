@@ -21,7 +21,7 @@ void MedianFilter2D::FilterBlock(  ushort * imgIn, ushort * imgOut)
 	//imgOut = new int[blockHeight*width];
 	std::deque<ushort> kernelDeque;
 	std::deque<ushort> tempDeque;
-	for (size_t rowIndex = Kernel->RadiusV; rowIndex < blockHeight - Kernel->RadiusV; rowIndex++)
+	for (size_t rowIndex = bndBufferHeight; rowIndex < blockHeight - bndBufferHeight; rowIndex++)
 	{
 		kernelDeque = InitializeDeque(imgIn, rowIndex);
 		tempDeque = kernelDeque;

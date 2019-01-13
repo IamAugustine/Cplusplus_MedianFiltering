@@ -151,10 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\DifferenceOfGaussian.h" />
     <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\FastGaussianFilter2D.h" />
     <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Laplacian.h" />
     <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\LaplacianOfGaussian2D.h" />
     <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\MeanFilterByTwo1DKernels.h" />
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Prewitt.h" />
     <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Sobel.h" />
     <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\UnsharpMaskFilter.h" />
     <ClInclude Include="LinearMotionBlur2D.h" />
@@ -168,10 +170,12 @@
     <ClInclude Include="Kernel.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\DifferenceOfGaussian.cpp" />
     <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\FastGaussianFilter2D.cpp" />
     <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Laplacian.cpp" />
     <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\LaplacianOfGaussian2D.cpp" />
     <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\MeanFilterByTwo1DKernels.cpp" />
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Prewitt.cpp" />
     <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Sobel.cpp" />
     <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\UnsharpMaskFilter.cpp" />
     <ClCompile Include="MotionBlur2D.cpp" />

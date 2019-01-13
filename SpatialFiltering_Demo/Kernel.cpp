@@ -8,6 +8,11 @@ template<typename T> inline float DegreeToRadian(T t) {return ((int)t % 180) * P
 FilterKernel::FilterKernel()
 {
 }
+FilterKernel::FilterKernel(byte verticalSize, byte horizontalSize) :VerticalSize(verticalSize), HorizontalSize(horizontalSize)
+{
+	RadiusH = (horizontalSize - 1) / 2;
+	RadiusV = (verticalSize - 1) / 2;
+}
 FilterKernel::~FilterKernel()
 {
 	std::vector<float>().swap(Kernel);
@@ -33,12 +38,11 @@ GaussianKernel::GaussianKernel(byte sizeX, byte sizeY, float sigmaX, float sigma
 	RadiusH = (HorizontalSize - 1) / 2;
 	RadiusV = (VerticalSize - 1) / 2;
 	float sum = 0;
-	float  Item = 1 / (2 * PI*sigmaX*sigmaY);
 	for (int i = 0; i < HorizontalSize; i++)
 	{
 		for (int j = 0; j < VerticalSize; j++)
 		{
-			float gValue =  Item * exp(-1 * (Square(i - RadiusH) / (2 * Square(sigmaX)) + Square(j - RadiusV) / (2 * Square(sigmaY))));
+			float gValue =  exp(-1 * (Square(i - RadiusH) / (2 * Square(sigmaX)) + Square(j - RadiusV) / (2 * Square(sigmaY))));
 			sum += gValue;
 			Kernel.push_back(gValue);
 		}
@@ -89,11 +93,30 @@ MedianKernel::MedianKernel(byte sizeX, byte sizeY)
 LaplacianKernel::LaplacianKernel(float alpha)
 {
 	Kernel.resize(9);
-	Kernel[5] = 4 / (1 + alpha);
+	VerticalSize = HorizontalSize = 3;
+	RadiusH = RadiusV = 1;
+	Kernel[5] = -4 / (1 + alpha);
 	Kernel[0] = Kernel[2] = Kernel[6] = Kernel[8] = alpha / (1 + alpha);
 	Kernel[1] = Kernel[3] = Kernel[5] = Kernel[7] = (1 - alpha) / (1 + alpha);
 }
 
-LaplacianOfGaussianKernel::LaplacianOfGaussianKernel(float alpha, float sigma)
+LaplacianOfGaussianKernel::LaplacianOfGaussianKernel(int N, float sigma)
+{
+	float sum = 0;
+	Kernel.resize(N*N);
+	VerticalSize = HorizontalSize = N;
+	for (size_t column = 0; column < N; column++)
+	{
+		for (size_t row = 0; row < N; row++)
+		{
+			float k = Square(row - RadiusH) + Square(column - RadiusV) / (2 * sigma*sigma);
+			Kernel[row + column * N] = -exp(-k)*(1-k);
+			sum += Kernel[row + column * N];
+		}
+	}
+	std::transform(Kernel.begin(), Kernel.end(), Kernel.begin(), [&](float v) {return v / sum; });
+}
+
+LaplacianOfGaussianKernel::LaplacianOfGaussianKernel(float sigma)
 {
 }

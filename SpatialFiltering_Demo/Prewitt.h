@@ -1,14 +1,12 @@
 #pragma once
 #include "FilterBase.h"
-
-
-class Sobel2D :
+class Prewitt :
 	public Filter2D
 {
-
 public:
-	Sobel2D(Direction direction);
-	~Sobel2D();
+	Prewitt(Direction direction);
+	~Prewitt();
+public:
 	ushort Calculate(deque<ushort> data);
 	Direction DerivativeDirection;
 };

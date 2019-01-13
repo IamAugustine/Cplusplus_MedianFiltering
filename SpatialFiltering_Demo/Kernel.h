@@ -14,6 +14,8 @@ class FilterKernel
 
 public:
 	FilterKernel();
+	FilterKernel(byte size) :FilterKernel(size, size) {};
+	FilterKernel(byte verticalSize, byte horizontalSize);
 	FilterKernel(byte verticalSize, byte horizontalSize, float* kernel) :VerticalSize(verticalSize), HorizontalSize(horizontalSize)
 	{
 		kernelLength = verticalSize * horizontalSize;
@@ -75,5 +77,6 @@ public:
 class LaplacianOfGaussianKernel :public FilterKernel
 {
 public:
-	LaplacianOfGaussianKernel(float alpha, float sigma);
+	LaplacianOfGaussianKernel(int N, float sigma);
+	LaplacianOfGaussianKernel(float sigma) : LaplacianOfGaussianKernel(7, sigma) {};
 };

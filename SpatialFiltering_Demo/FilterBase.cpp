@@ -19,7 +19,8 @@ void Filter2D::Apply(  ushort * imageIn, int height, int width, ushort * imageOu
 	ImageWidth = width;
 	deque<int> dataSegment;
 	size_t threadCount = GetCPUCoreNumber();
-	blockHeight = ImageHeight / threadCount + Kernel->RadiusV * 2;
+	bndBufferHeight = Kernel->RadiusV;
+	blockHeight = ImageHeight / threadCount + bndBufferHeight * 2;
 	//int** blockSegments = new int*[threadCount];
 	ushort** fltdSegmentts = new ushort*[threadCount];
 	ushort** blockSegments = SegmentImage(imageIn, threadCount);
@@ -37,7 +38,7 @@ void Filter2D::FilterBlock(  ushort * imageIn, ushort * imageOut)
 {
 	std::deque<ushort> kernelDeque;
 	//std::deque<ushort> tempDeque;
-	for (size_t rowIndex = Kernel->RadiusV; rowIndex < blockHeight - Kernel->RadiusV; rowIndex++)
+	for (size_t rowIndex = bndBufferHeight; rowIndex < blockHeight - bndBufferHeight; rowIndex++)
 	{
 		kernelDeque = InitializeDeque(imageIn, rowIndex);
 		//std::nth_element(tempDeque.begin(), tempDeque.begin() + tempDeque.size() / 2, tempDeque.end());
@@ -106,20 +107,20 @@ int Filter2D::GetCPUCoreNumber()
 ushort ** Filter2D::SegmentImage(  ushort * imgIn, int blockNumber)
 {
 	ushort** segments = new ushort*[blockNumber];
-	ushort* temp = new ushort[(ImageHeight + Kernel->RadiusV * 2)*ImageWidth];
+	ushort* temp = new ushort[(ImageHeight + bndBufferHeight * 2)*ImageWidth];
 	//Copy image
-	std::copy(imgIn, imgIn + ImageHeight * ImageWidth, temp + Kernel->RadiusV * ImageWidth);
+	std::copy(imgIn, imgIn + ImageHeight * ImageWidth, temp + bndBufferHeight * ImageWidth);
 	//Copy boundary
-	std::copy(imgIn, imgIn + Kernel->RadiusV * ImageWidth, temp);
-	std::copy(imgIn + (ImageHeight - Kernel->RadiusV)*ImageWidth, imgIn + ImageHeight * ImageWidth, temp + (ImageHeight + Kernel->RadiusV) * ImageWidth);
+	std::copy(imgIn, imgIn + bndBufferHeight * ImageWidth, temp);
+	std::copy(imgIn + (ImageHeight - bndBufferHeight)*ImageWidth, imgIn + ImageHeight * ImageWidth, temp + (ImageHeight + bndBufferHeight) * ImageWidth);
 	//IOHelper::SaveToLocalFile("block0.txt", temp, height, width);
-	size_t blockHeight = ImageHeight / blockNumber + Kernel->RadiusV * 2;
+	size_t blockHeight = ImageHeight / blockNumber + bndBufferHeight * 2;
 	size_t blockSize = blockHeight * ImageWidth;
 	//Segment images
 	for (int i = 0; i < blockNumber; i++)
 	{
 		segments[i] = new ushort[blockSize];
-		int segmentPoint = i * (blockHeight - 2 * Kernel->RadiusV)*ImageWidth;
+		int segmentPoint = i * (blockHeight - 2 * bndBufferHeight)*ImageWidth;
 		std::copy(temp + segmentPoint, temp + segmentPoint + blockSize, segments[i]);
 	}
 	delete temp;
@@ -128,12 +129,12 @@ ushort ** Filter2D::SegmentImage(  ushort * imgIn, int blockNumber)
 
 void Filter2D::ReconstructImage(ushort ** segments, ushort * imgOut, int blockNumber,   int blockHeight)
 {
-	size_t blockSize = (blockHeight - Kernel->RadiusV * 2)*ImageWidth;
-	int entryPoint = Kernel->RadiusV * ImageWidth;
+	size_t blockSize = (blockHeight - bndBufferHeight * 2)*ImageWidth;
+	int entryPoint = bndBufferHeight * ImageWidth;
 
 	for (int i = 0; i < blockNumber; i++)
 	{
-		int imgRowIndex = i * (blockHeight - Kernel->RadiusV * 2);
+		int imgRowIndex = i * (blockHeight - bndBufferHeight * 2);
 		std::copy(segments[i] + entryPoint, segments[i] + entryPoint + blockSize, imgOut + imgRowIndex * ImageWidth);
 	}
 }

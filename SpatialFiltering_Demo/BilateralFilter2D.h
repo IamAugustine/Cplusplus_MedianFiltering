@@ -16,8 +16,8 @@ public:
 private:
 	float* pixelWeight;
 	void CalculatePixelGaussian();
-	int blockHeight;
 	float sigmaS;
 	float sigmaP;
+	byte presetLength;
 };
 

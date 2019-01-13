@@ -20,6 +20,7 @@ enum FilterType
 	Gaussian, 
 	Biliteral,
 	Laplacian,
+	FastGaussian,
 	LaplacianOfGaussian,
 	Sobel,
 	LinearMotion,
@@ -37,7 +38,7 @@ int main()
 	static ushort* fltdImgData = new ushort[height *width];
 	
 	//auto mdfilter = new MedianFilter2D(kernelSize);
-	FilterType filterType = FilterType::Median;
+	FilterType filterType = FilterType::Laplacian;
 	Filter2D* filterToApply;
 	switch (filterType)
 	{
@@ -57,7 +58,7 @@ int main()
 	{
 		float sigmaS = 3;
 		float sigmaP = 5;
-		filterToApply = new BilateralFilter2D(sigmaS, sigmaP);
+		filterToApply = new BilateralFilter2D(sigmaS, kernelSize,sigmaP);
 	}
 		break;
 	case Laplacian:
@@ -86,6 +87,12 @@ int main()
 		break;
 	case Custom:
 		filterToApply = new Filter2D();
+	case FastGaussian:
+	{
+		float sigma = 3;
+		filterToApply = new FastGaussianFilter2D(sigma);
+	}
+		break;
 	default:
 	{
 		float sigma = 3;

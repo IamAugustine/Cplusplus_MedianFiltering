@@ -10,13 +10,12 @@ class GaussianFilter2D :
 public:
 	GaussianFilter2D();
 	GaussianFilter2D(float sigma);
-	GaussianFilter2D(byte size, float sigma);
+	GaussianFilter2D(byte size, float sigma) :GaussianFilter2D(size, size, sigma, sigma) {};
 	GaussianFilter2D(byte sizeX, byte sizeY, float sigmaX, float sigmaY);
 	~GaussianFilter2D();
 public:
 	byte EstimateSizebySigmaOnly(float sigma);
 private:
-	void GenerateKernel(byte size, float sigma);
 	void GenerateKernel(byte sizeX, byte sizeY,  float sigmaX, float sigmaY);
 
 	

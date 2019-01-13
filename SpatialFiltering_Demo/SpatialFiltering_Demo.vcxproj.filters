@@ -84,6 +84,12 @@
     <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Laplacian.h">
       <Filter>Header Files\Filter\Edge Detection</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Prewitt.h">
+      <Filter>Header Files\Filter\Edge Detection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\DifferenceOfGaussian.h">
+      <Filter>Header Files\Filter\Edge Detection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -133,6 +139,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Sobel.cpp">
       <Filter>Source Files\Filter\Edge Detection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\Prewitt.cpp">
+      <Filter>Source Files\Filter\Edge Detection</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\bit.linyu%40gmail.com\Cplusplus_MedianFiltering\SpatialFiltering_Demo\DifferenceOfGaussian.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

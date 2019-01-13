@@ -29,9 +29,16 @@ public:
 	virtual void ProcessingBlocks(ushort** blocksIn,byte blockHeight, byte threadCount, ushort** blocksOut);
 	void(Filter2D::*fun)(  ushort*, ushort*) = &Filter2D::FilterBlock;
 	int blockHeight;
+	int bndBufferHeight;
 public:
 	int GetCPUCoreNumber();
 	ushort** SegmentImage(  ushort* imgIn, int blockNumber);
 	void ReconstructImage(ushort** segments, ushort* imgOut, int blockNumber,   int blockHeight);
+};
+enum Direction
+{
+	Vertical,
+	Horizontal,
+	Both
 };
 

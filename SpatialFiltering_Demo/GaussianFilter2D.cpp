@@ -11,10 +11,6 @@ GaussianFilter2D::GaussianFilter2D(float sigma)
 	GaussianKernel(EstimateSizebySigmaOnly(sigma), sigma);
 }
 
-GaussianFilter2D::GaussianFilter2D(byte size, float sigma)
-{
-	GenerateKernel(size, sigma);
-}
 
 GaussianFilter2D::GaussianFilter2D(byte sizeX, byte sizeY, float sigmaX, float sigmaY)
 {
@@ -26,10 +22,6 @@ GaussianFilter2D::~GaussianFilter2D()
 {
 }
 
-void GaussianFilter2D::GenerateKernel(byte size, float sigma)
-{
-	this->Kernel = new GaussianKernel(size, sigma);
-}
 
 void GaussianFilter2D::GenerateKernel(byte sizeX, byte sizeY, float sigmaX, float sigmaY)
 {

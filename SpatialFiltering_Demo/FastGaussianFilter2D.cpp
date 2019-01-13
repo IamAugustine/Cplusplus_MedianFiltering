@@ -7,11 +7,6 @@ FastGaussianFilter2D::FastGaussianFilter2D()
 {
 }
 
-FastGaussianFilter2D::FastGaussianFilter2D(float sigma)
-{
-	FastGaussianFilter2D(sigma, 4);
-}
-
 FastGaussianFilter2D::FastGaussianFilter2D(float sigma, int n)
 {
 	kernelSizes = new byte[n];

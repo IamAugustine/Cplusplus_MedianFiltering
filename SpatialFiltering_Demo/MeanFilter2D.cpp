@@ -49,7 +49,7 @@ void MeanFilter2D::FilterBlock(  ushort * imageIn, ushort * imageOut)
 {
 	std::deque<float> kernelDeque;
 	//std::deque<ushort> tempDeque;
-	for (size_t rowIndex = Kernel->RadiusV; rowIndex < blockHeight - Kernel->RadiusV; rowIndex++)
+	for (size_t rowIndex = bndBufferHeight; rowIndex < blockHeight - bndBufferHeight; rowIndex++)
 	{
 		kernelDeque = InitializeDeque2(imageIn, rowIndex);
 		//tempDeque = kernelDeque;

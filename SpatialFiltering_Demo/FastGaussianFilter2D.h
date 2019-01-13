@@ -9,7 +9,7 @@ class FastGaussianFilter2D :
 {
 public:
 	FastGaussianFilter2D();
-	FastGaussianFilter2D(float sigma);
+	FastGaussianFilter2D(float sigma) :FastGaussianFilter2D(sigma, 4) {};
 	FastGaussianFilter2D(float sigma, int round);
 	~FastGaussianFilter2D();
 public:

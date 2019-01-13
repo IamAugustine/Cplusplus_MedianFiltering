@@ -23,7 +23,7 @@ ushort BilateralFilter2D::Calculate(deque<ushort> data)
 {
 	float v = 0;
 	ushort p = data.at((data.size() - 1) / 2);
-	std::transform(data.begin(), data.end(), Kernel->Kernel.begin(), Kernel->Kernel.begin(), [&v, &p, this](ushort d, float f) {v += d * f * pixelWeight[abs(d-p)]; return f; });
+	std::transform(data.begin(), data.end(), Kernel->Kernel.begin(), Kernel->Kernel.begin(), [&v, &p, this](ushort d, float f) {float t;  t = abs(d - p) >= this->presetLength ? 0 : pixelWeight[abs(d - p)]; v += t; return f; });
 	return (ushort)(v + 0.5);
 }
 
@@ -31,15 +31,14 @@ void BilateralFilter2D::FilterBlock(  ushort * imageIn, ushort * imageOut)
 {
 	std::deque<ushort> kernelDeque;
 	//std::deque<ushort> tempDeque;
-	for (size_t rowIndex = Kernel->RadiusV; rowIndex < blockHeight - Kernel->RadiusV; rowIndex++)
+	for (size_t rowIndex = bndBufferHeight; rowIndex < blockHeight - bndBufferHeight; rowIndex++)
 	{
 		kernelDeque = InitializeDeque(imageIn, rowIndex);
-		//std::nth_element(tempDeque.begin(), tempDeque.begin() + tempDeque.size() / 2, tempDeque.end());
 		imageOut[rowIndex * ImageWidth] = Calculate(kernelDeque);
 		int newClmIndex = 1;
 		while (newClmIndex <= ImageWidth)
 		{
-			KernelMoveRight(imageIn, rowIndex, newClmIndex + Kernel->RadiusH, kernelDeque);
+			KernelMoveRight(imageIn, rowIndex, newClmIndex, kernelDeque);
 			imageOut[rowIndex * ImageWidth + newClmIndex] = Calculate(kernelDeque);
 			newClmIndex++;
 		}
@@ -59,17 +58,13 @@ void BilateralFilter2D::ProcessingBlocks(ushort ** blocksIn, byte blockHeight, b
 
 void BilateralFilter2D::CalculatePixelGaussian()
 {
-	unsigned char threeSigma = round(3 * sigmaP);
-	pixelWeight = new float[threeSigma];
+	presetLength = round(3 * sigmaP);
+	pixelWeight = new float[presetLength];
 	float sum = 0;
-	for (byte i = 0; i < threeSigma; i++)
+	for (byte i = 0; i < presetLength; i++)
 	{
-		pixelWeight[i] = exp(-1 * i*i / sigmaP / sigmaP) / sqrt(2 * PI) / sigmaP;
-		sum += abs(pixelWeight[i]);
-	}
-	for (byte i = 0; i < threeSigma; i++)
-	{
-		pixelWeight[i] /= sum;
+		pixelWeight[i] = exp(-1 * i*i / sigmaP / sigmaP) ;
+		//sum += abs(pixelWeight[i]);
 	}
 }
 
